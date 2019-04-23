@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">My App</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="button_login">Login</string>
+    <string name="button_sign_up">Sign up</string>
+    <string name="error_password">Password must contain at least 4 characters.</string>
+    <string name="error_email">must be a valid email</string>
+    <string name="filter_title">Filter</string>
+    <string name="search_title">Search</string>
+    <string name="product_title">Title</string>
+    <string name="product_description">Secondary text</string>
+
+    <!-- Shrine backdrop menu labels -->
+    <string name="featured_label">Featured</string>
+    <string name="apartment_label">Apartment</string>
+    <string name="accessories_label">Accessories</string>
+    <string name="shoes_label">Shoes</string>
+    <string name="tops_label">Tops</string>
+    <string name="bottoms_label">Bottoms</string>
+    <string name="dresses_label">Dresses</string>
+    <string name="account_label">My Account</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="forget_password">Forget Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="gender">Gender</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="select_date">Select Date</string>
+</resources>
