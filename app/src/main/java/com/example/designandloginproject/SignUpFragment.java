@@ -6,18 +6,18 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.Calendar;
-import java.util.Objects;
 
 
 /**
@@ -27,7 +27,29 @@ import java.util.Objects;
 
 public class SignUpFragment extends Fragment {
 
-    TextView textViewDate;
+    TextInputLayout emailInputLayout;
+    TextInputEditText emailEditText;
+    TextInputLayout firstNameInputLayout;
+    TextInputEditText firstNameEditText;
+    TextInputLayout lastNameInputLayout;
+    TextInputEditText lastNameEditText;
+    TextInputLayout phoneInputLayout;
+    TextInputEditText phoneEditText;
+    TextInputLayout passwordInputLayout;
+    TextInputEditText passwordEditText;
+    TextInputLayout confirmPasswordInputLayout;
+    TextInputEditText confirmPasswordEditText;
+
+    TextView dateTextView;
+    TextView dateErrorTextView;
+    TextView genderErrorTextView;
+
+    boolean checked;
+    RadioButton maleRadioButton;
+    RadioButton femaleRadioButton;
+
+    Spinner citySpinner;
+
 
     private DatePickerDialog.OnDateSetListener mOnDateSetListener;
 
@@ -44,8 +66,8 @@ public class SignUpFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-        textViewDate=view.findViewById(R.id.date_text_view);
-        textViewDate.setOnClickListener(v -> {
+        dateTextView =view.findViewById(R.id.date_text_view_sign_up);
+        dateTextView.setOnClickListener(v -> {
             Calendar calendar =Calendar.getInstance();
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -62,7 +84,7 @@ public class SignUpFragment extends Fragment {
         mOnDateSetListener = (view1, year, month, dayOfMonth) -> {
             month=month+1;
             String date = dayOfMonth+"/"+month+"/"+year;
-            textViewDate.setText(date);
+            dateTextView.setText(date);
         };
         return view;
     }

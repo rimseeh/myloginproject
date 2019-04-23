@@ -58,4 +58,9 @@
         <item name="android:background">?attr/colorAccent</item>
     </style>
 
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/design_text_input_error_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
