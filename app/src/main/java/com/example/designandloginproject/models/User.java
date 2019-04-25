@@ -1,6 +1,7 @@
 package com.example.designandloginproject.models;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 public class User implements Serializable {
 
@@ -91,5 +92,16 @@ public class User implements Serializable {
                 ", gender='" + gender + '\'' +
                 ", city='" + city + '\'' +
                 '}';
+    }
+
+    public static boolean isEmailValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 }

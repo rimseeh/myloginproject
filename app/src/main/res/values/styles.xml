@@ -59,8 +59,14 @@
     </style>
 
     <style name="error_appearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/design_text_input_error_color</item>
+        <item name="android:textColor">#f44336</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="DatePickerTheme" parent="@android:style/Theme.Holo.Light.Dialog.MinWidth">
+        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
     </style>
 
 </resources>

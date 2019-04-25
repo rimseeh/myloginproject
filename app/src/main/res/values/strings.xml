@@ -8,7 +8,13 @@
     <string name="button_login">Login</string>
     <string name="button_sign_up">Sign up</string>
     <string name="error_password">Password must contain at least 4 characters.</string>
-    <string name="error_email">must be a valid email</string>
+    <string name="error_confirm_password">Confirm password does not match password.</string>
+    <string name="error_email">Must be a valid email.</string>
+    <string name="error_first_name">Invalid First Name.</string>
+    <string name="error_last_name">Invalid Last Name.</string>
+    <string name="error_phone">Invalid Phone number.</string>
+    <string name="error_date_of_birth">Date of birth is required.</string>
+    <string name="error_gender">Gender is required.</string>
     <string name="filter_title">Filter</string>
     <string name="search_title">Search</string>
     <string name="product_title">Title</string>
@@ -37,8 +43,10 @@
 
     <string name="city_prompt">Choose a City</string>
     <string name="phone">Phone</string>
-    <string name="error_date_of_birth">Date of birth is required</string>
-    <string name="error_gender">Gender is required</string>
+    <string name="password_special_char">((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{4,20})</string>
+    <string name="name_special_char">^[A-Za-z]+$</string>
+    <string name="phone_special_char">(0)?[5][0-9]{8}</string>
+
 
     <string-array name="city_arrays">
         <item>Jerusalem</item>
