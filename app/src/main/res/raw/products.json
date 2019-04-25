@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Vagabond sack",
+    "description": "this is the vagabond sack",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/0-0.jpg",
+    "price": "$120"
+  },
+  {
+    "title": "Stella sunglasses",
+    "description": "this is the Stella sunglasses",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/1-0.jpg",
+    "price": "$58"
+  },
+  {
+    "title": "Whitney belt",
+    "description": "this is the Whitney belt",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/2-0.jpg",
+    "price": "$35"
+  },
+  {
+    "title": "Garden strand",
+    "description": "this is the Garden strand",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/3-0.jpg",
+    "price": "$98"
+  },
+  {
+    "title": "Strut earrings",
+    "description": "this is the Strut earrings",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/4-0.jpg",
+    "price": "$34"
+  },
+  {
+    "title": "Varsity socks",
+    "description": "this is the Varsity socks",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/5-0.jpg",
+    "price": "$12"
+  },
+  {
+    "title": "Weave keyring",
+    "description": "this is the Weave keyring",
+    "url": "https://storage.googleapis.com/material-vignettes.appspot.com/image/6-0.jpg",
+    "price": "$16"
+  }
+]
