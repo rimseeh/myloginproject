@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My App</string>
+    <string name="app_name">ZIRCONIA</string>
     <string name="hint_email">Email</string>
     <string name="hint_first_name">First Name</string>
     <string name="hint_last_name">Last Name</string>
