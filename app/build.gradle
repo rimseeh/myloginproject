@@ -60,4 +60,7 @@ dependencies {
 
     //facebook repro
     implementation 'com.facebook.android:facebook-login:[4,5)'
+
+    //picso image
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
