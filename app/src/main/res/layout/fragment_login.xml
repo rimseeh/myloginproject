@@ -111,7 +111,7 @@
             android:layout_marginTop="5dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/next_button"
+                android:id="@+id/login_button_login"
                 style="@style/Widget.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,8 +129,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="116dp"
                 android:layout_marginRight="116dp"
-                android:layout_toStartOf="@id/next_button"
-                android:layout_toLeftOf="@id/next_button"
+                android:layout_toStartOf="@id/login_button_login"
+                android:layout_toLeftOf="@id/login_button_login"
                 android:text="@string/button_sign_up"
                 tools:ignore="RtlHardcoded" />
 

@@ -1,38 +1,40 @@
 package com.example.designandloginproject;
 
-import androidx.annotation.NonNull;
+//import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
-import android.net.Uri;
-import android.os.Build;
+//import android.graphics.Bitmap;
+//import android.graphics.BitmapFactory;
+//import android.graphics.ImageFormat;
+//import android.net.Uri;
+//import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.example.designandloginproject.models.Accessory;
-import com.example.designandloginproject.models.ImageRequester;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
+import com.example.designandloginproject.application.MyApplication;
+//import android.util.Log;
+//
+//import com.example.designandloginproject.models.Accessory;
+//import com.example.designandloginproject.models.ImageRequester;
+//import com.google.android.gms.tasks.OnCompleteListener;
+//import com.google.android.gms.tasks.OnSuccessListener;
+//import com.google.android.gms.tasks.Task;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.storage.FirebaseStorage;
+//import com.google.firebase.storage.StorageReference;
+//import com.google.firebase.storage.UploadTask;
+//import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.RequestCreator;
+//
+//import java.io.File;
+//import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.IOException;
+//import java.net.MalformedURLException;
+//import java.net.URL;
+//import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MyApplication myApplication =MyApplication.getInstance();
 //        accessories = (ArrayList<Accessory>) Accessory.initAccessoryEntryList(getResources());
 //        mStorageReference = FirebaseStorage.getInstance().getReference();
 //        mDatabaseReference = FirebaseDatabase.getInstance().getReference("images");
@@ -130,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         if (addToBackstack) {
             transaction.addToBackStack(null);
         }
-
         transaction.commit();
     }
 }

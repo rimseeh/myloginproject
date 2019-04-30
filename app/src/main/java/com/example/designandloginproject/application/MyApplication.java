@@ -16,16 +16,12 @@ public class MyApplication extends Application {
         return appContext;
     }
 
-    public void setAppContext(Context mAppContext) {
-        this.appContext = mAppContext;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
 
-        this.setAppContext(getApplicationContext());
+        appContext=getApplicationContext();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 }

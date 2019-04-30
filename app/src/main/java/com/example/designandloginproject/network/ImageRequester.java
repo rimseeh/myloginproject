@@ -23,7 +23,7 @@ public class ImageRequester {
 
     private ImageRequester() {
         context = MyApplication.getAppContext();
-        this.requestQueue = Volley.newRequestQueue(context);
+        this.requestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
         this.requestQueue.start();
         this.maxByteSize = calculateMaxByteSize();
         this.imageLoader =
