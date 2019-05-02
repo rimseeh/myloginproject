@@ -54,5 +54,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/account_label" />
+    <View
+        android:layout_width="56dp"
+        android:layout_height="1dp"
+        android:layout_margin="16dp"
+        android:background="?android:attr/textColorPrimary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backdrop_logout_button"
+        style="@style/Widget.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout" />
 
 </merge>

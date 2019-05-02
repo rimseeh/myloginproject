@@ -1,6 +1,7 @@
 package com.example.designandloginproject;
 
 //import androidx.annotation.NonNull;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,8 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 //import android.net.Uri;
 //import android.os.Build;
 import android.os.Bundle;
+import android.widget.ImageView;
 
+import com.ablanco.zoomy.Zoomy;
+import com.android.volley.toolbox.NetworkImageView;
 import com.example.designandloginproject.application.MyApplication;
+import com.example.designandloginproject.network.ImageRequester;
+import com.google.firebase.auth.FirebaseAuth;
 //import android.util.Log;
 //
 //import com.example.designandloginproject.models.Accessory;
@@ -44,17 +50,17 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 //    private DatabaseReference mDatabaseReference;
 //    ArrayList<Accessory> accessories;
 
-//    private ArrayList<String> pathArray;
+    //    private ArrayList<String> pathArray;
 //    private ArrayList<String> keysArray=new ArrayList<>();
 //    private ArrayList<Uri> urlArray=new ArrayList<>();
 //    private int array_position;
-
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyApplication myApplication =MyApplication.getInstance();
+        MyApplication myApplication = MyApplication.getInstance();
 //        accessories = (ArrayList<Accessory>) Accessory.initAccessoryEntryList(getResources());
 //        mStorageReference = FirebaseStorage.getInstance().getReference();
 //        mDatabaseReference = FirebaseDatabase.getInstance().getReference("images");
@@ -76,13 +82,18 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 //            mDatabaseReference.child(keysArray.get(i)).setValue(accessory).addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: "+accessory));
 //            i++;
 //        }
-
-        if (savedInstanceState == null) {
+        if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new AccessoryGridFragment())
+                    .commit();
+        } else if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.container, new LoginFragment())
                     .commit();
         }
+
 
     }
 
@@ -124,13 +135,13 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 
 
     @Override
-    public void navigateTo(Fragment fragment, boolean addToBackstack) {
+    public void navigateTo(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction =
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.container, fragment);
 
-        if (addToBackstack) {
+        if (addToBackStack) {
             transaction.addToBackStack(null);
         }
         transaction.commit();

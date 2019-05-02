@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".AccessoryGridFragment">
 
     <LinearLayout
@@ -14,7 +13,10 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingTop="88dp">
-        <include layout="@layout/backdrop" />
+
+        <include
+            android:id="@+id/backdrop_layout"
+            layout="@layout/backdrop" />
     </LinearLayout>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,24 +33,38 @@
             app:title="@string/app_name" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/product_grid"
+    <LinearLayout
+        android:id="@+id/linearLayout_gird"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="55dp"
         android:background="@color/productGridBackgroundColor"
-        android:elevation="6dp"
-        android:paddingStart="@dimen/product_grid_spacing"
-        android:paddingEnd="@dimen/product_grid_spacing"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="250dp"
+            android:visibility="gone" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/product_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="10dp" />
+            android:paddingStart="@dimen/product_grid_spacing"
+            android:paddingEnd="@dimen/product_grid_spacing"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.core.widget.NestedScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 
 </FrameLayout>

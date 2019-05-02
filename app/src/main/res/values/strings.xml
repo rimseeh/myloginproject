@@ -33,7 +33,6 @@
     <string name="forget_password">Forget Password</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="gender">Gender</string>
@@ -46,6 +45,8 @@
     <string name="password_special_char">((?=.*[a-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@#$%!]).{4,20})</string>
     <string name="name_special_char">^[A-Za-z]+$</string>
     <string name="phone_special_char">(0)?[5][0-9]{8}</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="enter_your_email_address_below_to_reset_password">Enter your email address below\n to reset password</string>
 
 
     <string-array name="city_arrays">
@@ -56,5 +57,9 @@
         <item>Hebron</item>
         <item>Bethlahem</item>
     </string-array>
+
+    <string name="facebook_app_id">1694784900624446</string>
+    <string name="fb_login_protocol_scheme">fb1694784900624446</string>
+    <string name="logout">Logout</string>
 
 </resources>

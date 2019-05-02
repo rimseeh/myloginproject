@@ -1,15 +1,21 @@
 package com.example.designandloginproject;
 
+import android.os.Build;
 import android.os.Bundle;
 
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ProgressBar;
 
 import com.example.designandloginproject.models.Accessory;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,31 +28,36 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class AccessoryGridFragment extends Fragment {
     private static final String TAG = "AccessoryGridFragment";
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+//    @BindView(R.id.backdrop_layout)
+//    Layout layout;
+    @BindView(R.id.backdrop_logout_button)
+    MaterialButton logoutButton;
+
     private DocumentSnapshot lastVisible;
     ArrayList<Accessory> accessories = new ArrayList<>();
     AccessoryCardRecyclerViewAdapter adapter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment with the ProductGrid theme
         View view = inflater.inflate(R.layout.accessory_grid_fragment, container, false);
-
+        ButterKnife.bind(this, view);
         // Set up the toolbar
         setUpToolbar(view);
 
@@ -55,17 +66,21 @@ public class AccessoryGridFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, RecyclerView.VERTICAL, false));
 
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            view.findViewById(R.id.linearLayout_gird).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
+        }
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseDatabase.getInstance().getReference().child("images").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progressBar.setVisibility(View.GONE);
                 for (DataSnapshot document : dataSnapshot.getChildren()) {
                     Accessory accessory = document.getValue(Accessory.class);
                     assert accessory != null;
                     accessory.setId(document.getKey());
                     accessories.add(accessory);
                 }
-                adapter = new AccessoryCardRecyclerViewAdapter(accessories);
+                adapter = new AccessoryCardRecyclerViewAdapter(accessories, (MainActivity) getActivity());
                 int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
                 int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
                 recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
@@ -77,29 +92,29 @@ public class AccessoryGridFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
-//        query.get().addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                accessories = new ArrayList<>();
-//                for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-//                    Accessory accessory = document.toObject(Accessory.class);
-//                    assert accessory != null;
-//                    accessory.setId(document.getId());
-//                    accessories.add(accessory);
-//                }
-//                adapter = new AccessoryCardRecyclerViewAdapter(accessories);
-//                int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
-//                int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
-//                recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
-//                Log.d(TAG, "onCreateView: "+accessories);
-////                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
-//            }
-//        });
-
 
         return view;
+    }
+
+    @OnClick(R.id.backdrop_logout_button)
+    void onClick(){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+        ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the grid Fragment
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.toolbar_menu, menu);
+        super.onCreateOptionsMenu(menu, menuInflater);
     }
 
     private void setUpToolbar(View view) {
@@ -108,12 +123,13 @@ public class AccessoryGridFragment extends Fragment {
         if (activity != null) {
             activity.setSupportActionBar(toolbar);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.toolbar_menu, menu);
-        super.onCreateOptionsMenu(menu, menuInflater);
+        toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
+                getContext(),
+                view.findViewById(R.id.linearLayout_gird),
+                new AccelerateDecelerateInterpolator(),
+                getContext().getResources().getDrawable(R.drawable.branded_menu), // Menu open icon
+                getContext().getResources().getDrawable(R.drawable.close_menu)) // Menu close icon
+        );
     }
 
 }
