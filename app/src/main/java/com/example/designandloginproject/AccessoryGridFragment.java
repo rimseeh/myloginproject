@@ -34,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,10 +42,9 @@ import butterknife.OnClick;
 
 public class AccessoryGridFragment extends Fragment {
     private static final String TAG = "AccessoryGridFragment";
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
-//    @BindView(R.id.backdrop_layout)
-//    Layout layout;
+
+    @BindView(R.id.accessory_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.backdrop_logout_button)
     MaterialButton logoutButton;
 
@@ -60,20 +60,19 @@ public class AccessoryGridFragment extends Fragment {
         ButterKnife.bind(this, view);
         // Set up the toolbar
         setUpToolbar(view);
-
         // Set up the RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, RecyclerView.VERTICAL, false));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.findViewById(R.id.linearLayout_gird).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
+            view.findViewById(R.id.accessory_swipe_refresh_layout).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
         }
-        progressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
         FirebaseDatabase.getInstance().getReference().child("images").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 for (DataSnapshot document : dataSnapshot.getChildren()) {
                     Accessory accessory = document.getValue(Accessory.class);
                     assert accessory != null;
@@ -94,7 +93,7 @@ public class AccessoryGridFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
+        swipeRefreshLayout.setOnRefreshListener(() -> swipeRefreshLayout.setRefreshing(false));
         return view;
     }
 
@@ -125,7 +124,7 @@ public class AccessoryGridFragment extends Fragment {
         }
         toolbar.setNavigationOnClickListener(new NavigationIconClickListener(
                 getContext(),
-                view.findViewById(R.id.linearLayout_gird),
+                view.findViewById(R.id.accessory_swipe_refresh_layout),
                 new AccelerateDecelerateInterpolator(),
                 getContext().getResources().getDrawable(R.drawable.branded_menu), // Menu open icon
                 getContext().getResources().getDrawable(R.drawable.close_menu)) // Menu close icon

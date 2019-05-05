@@ -2,6 +2,9 @@ package com.example.designandloginproject.application;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.example.designandloginproject.network.ConnectivityReceiver;
+
 import androidx.appcompat.app.AppCompatDelegate;
 
 public class MyApplication extends Application {
@@ -21,7 +24,11 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
 
-        appContext=getApplicationContext();
+        appContext = getApplicationContext();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 }

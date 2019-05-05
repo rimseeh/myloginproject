@@ -62,4 +62,10 @@
     <string name="fb_login_protocol_scheme">fb1694784900624446</string>
     <string name="logout">Logout</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="try_again">Try Again</string>
+    <string name="internet_error">No Internet Connection\n Please try Again</string>
+    <string name="facebook_user_cancel">User Canceled</string>
+
 </resources>

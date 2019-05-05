@@ -1,19 +1,10 @@
 package com.example.designandloginproject;
 
 
+import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
-import butterknife.OnTouch;
-
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,8 +15,17 @@ import android.widget.Toast;
 
 import com.example.designandloginproject.SharedPreferences.MySharedPreferences;
 import com.example.designandloginproject.models.User;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,8 +35,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 
 
 public class LoginFragment extends Fragment {
@@ -65,7 +73,11 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.progressBar_login)
     ProgressBar progressBar;
 
+    @BindView(R.id.login_button)
+    LoginButton facebookLoginButton;
+
     FirebaseUser firebaseUser;
+    CallbackManager callbackManager;
     User user;
 
     boolean checkBoxBoolean;
@@ -88,9 +100,42 @@ public class LoginFragment extends Fragment {
         }
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-
         }
+
+        callbackManager = CallbackManager.Factory.create();
+        facebookLoginButton.setReadPermissions(Arrays.asList("email"));
         return view;
+    }
+
+    public void buttonLoginListener(View view) {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handelFacebookToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getActivity(), getString(R.string.facebook_user_cancel), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(getActivity(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void handelFacebookToken(AccessToken accessToken) {
+        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        mAuth.signInWithCredential(authCredential)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+
+                    } else {
+                        Toast.makeText(getActivity(), "cannot connect to FireBase : " + task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
@@ -99,7 +144,13 @@ public class LoginFragment extends Fragment {
         checkBoxBoolean = checked;
     }
 
-    @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password})
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password, R.id.login_button})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_button_login:
@@ -116,6 +167,9 @@ public class LoginFragment extends Fragment {
                 break;
             case R.id.textView_forget_password:
                 ((NavigationHost) getActivity()).navigateTo(new ForgetPasswordFragment(), true); // Navigate to the grid Fragment
+                break;
+            case R.id.login_button:
+                buttonLoginListener(v);
                 break;
 
         }
