@@ -13,9 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.designandloginproject.SharedPreferences.MySharedPreferences;
+import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
 import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.models.User;
+import com.example.designandloginproject.signinmethods.MyGoogle;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,15 +26,20 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -56,7 +63,9 @@ public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     private FirebaseAuth mAuth;
-
+    private static final int GE_SIGN_IN = 9001;
+    private static final int FB_SIGN_IN = 9001;
+    View view;
 
     @BindView(R.id.sign_up_button_login)
     Button buttonSignUp;
@@ -86,7 +95,7 @@ public class LoginFragment extends Fragment {
     LoginButton facebookLoginButton;
 
     private FirebaseUser firebaseUser;
-    private CallbackManager mCallbackManager=null;
+    private CallbackManager mCallbackManager = null;
 
     private boolean checkBoxBoolean;
 
@@ -99,7 +108,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
         if (MySharedPreferences.getInstance(getActivity()).readString("email", null) != null) {
             emailEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("email", null));
@@ -108,12 +117,12 @@ public class LoginFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 //        if (mAuth.getCurrentUser() != null) {
 //        }
-        setFaceBookLoginButton(view);
-
-        setGooglePlusButtonText(googleSignInButton,"Continue with gmail");
+        setFaceBookLoginButton();
+        setGooglePlusButtonText(googleSignInButton, "Continue with gmail");
         return view;
     }
-    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+
+    private void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
         // Find the TextView that is inside of the SignInButton and set its text
         for (int i = 0; i < signInButton.getChildCount(); i++) {
             View v = signInButton.getChildAt(i);
@@ -121,6 +130,7 @@ public class LoginFragment extends Fragment {
             if (v instanceof TextView) {
                 TextView tv = (TextView) v;
                 tv.setText(buttonText);
+                tv.setPadding(0, 0, 10, 0);
                 return;
             }
         }
@@ -132,7 +142,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password})
+    @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password,R.id.sign_in_button_google})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_button_login:
@@ -151,17 +161,35 @@ public class LoginFragment extends Fragment {
                 ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new ForgetPasswordFragment(), true); // Navigate to the grid Fragment
                 break;
 
+            case R.id.sign_in_button_google:
+                setGoogleLoginButton();
+                break;
+
         }
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GE_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                MyGoogle.getInstance(getActivity(),view).firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+                // ...
+            }
+        } else {
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 
-    private void setFaceBookLoginButton(View view) {
+    private void setFaceBookLoginButton() {
         mCallbackManager = CallbackManager.Factory.create();
         facebookLoginButton.setReadPermissions("email", "public_profile");
         facebookLoginButton.setLogoutText("Continue with Facebook");
@@ -226,13 +254,6 @@ public class LoginFragment extends Fragment {
                 Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-//        if (!EmailVerificationBoolean) {
-//            firebaseUser.sendEmailVerification().addOnCompleteListener(task -> Toast.makeText(LogInActivity.this, "Verification Email is sent to " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show());
-//            mAuth.signOut();
-//            LoginManager.getInstance().logOut();
-//        }
     }
 
     private boolean isUserValidate() {
@@ -289,14 +310,16 @@ public class LoginFragment extends Fragment {
                 });
     }
 
-    private void googleLoginButton(){
+    private void setGoogleLoginButton() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         // Build a GoogleSignInClient with the options specified by gso.
         GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(MyApplication.getAppContext(), gso);
 
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, GE_SIGN_IN);
 
     }
 

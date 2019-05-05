@@ -82,25 +82,23 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
                     .add(R.id.container, new LoginFragment())
                     .commit();
         }
-        printKeyHash();
-
     }
 
-    private void printKeyHash() {
-        // Add code to print out the key hash
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo("com.example.designandloginproject", PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA-1");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e("KeyHash:", e.toString());
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("KeyHash:", e.toString());
-        }
-    }
+//    private void printKeyHash() {
+//        // Add code to print out the key hash
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo("com.example.designandloginproject", PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA-1");
+//                md.update(signature.toByteArray());
+//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            Log.e("KeyHash:", e.toString());
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.e("KeyHash:", e.toString());
+//        }
+//    }
 
 
     @Override

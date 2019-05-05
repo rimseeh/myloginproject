@@ -1,4 +1,4 @@
-package com.example.designandloginproject.SharedPreferences;
+package com.example.designandloginproject.sharedPreferences;
 
 import android.app.Activity;
 import android.content.Context;
