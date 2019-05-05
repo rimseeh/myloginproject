@@ -14,14 +14,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.designandloginproject.SharedPreferences.MySharedPreferences;
+import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.models.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
@@ -35,7 +41,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -51,6 +56,7 @@ public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     private FirebaseAuth mAuth;
+
 
     @BindView(R.id.sign_up_button_login)
     Button buttonSignUp;
@@ -73,15 +79,16 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.progressBar_login)
     ProgressBar progressBar;
 
+    @BindView(R.id.sign_in_button_google)
+    SignInButton googleSignInButton;
+
     @BindView(R.id.login_button)
     LoginButton facebookLoginButton;
 
-    FirebaseUser firebaseUser;
-    CallbackManager callbackManager;
-    User user;
+    private FirebaseUser firebaseUser;
+    private CallbackManager mCallbackManager=null;
 
-    boolean checkBoxBoolean;
-    boolean validateBoolean;
+    private boolean checkBoxBoolean;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -99,62 +106,37 @@ public class LoginFragment extends Fragment {
             passwordEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("password", null));
         }
         mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() != null) {
-        }
+//        if (mAuth.getCurrentUser() != null) {
+//        }
+        setFaceBookLoginButton(view);
 
-        callbackManager = CallbackManager.Factory.create();
-        facebookLoginButton.setReadPermissions(Arrays.asList("email"));
+        setGooglePlusButtonText(googleSignInButton,"Continue with gmail");
         return view;
     }
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
 
-    public void buttonLoginListener(View view) {
-        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handelFacebookToken(loginResult.getAccessToken());
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(buttonText);
+                return;
             }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(getActivity(), getString(R.string.facebook_user_cancel), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Toast.makeText(getActivity(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
-            }
-        });
+        }
     }
-
-    private void handelFacebookToken(AccessToken accessToken) {
-        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        mAuth.signInWithCredential(authCredential)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-
-                    } else {
-                        Toast.makeText(getActivity(), "cannot connect to FireBase : " + task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
 
     @OnCheckedChanged(R.id.checkBox_login)
     void onChecked(boolean checked) {
         checkBoxBoolean = checked;
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password, R.id.login_button})
+    @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password})
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_button_login:
-                ((NavigationHost) getActivity()).navigateTo(new SignUpFragment(), true); // Navigate to the sign up Fragment
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new SignUpFragment(), true); // Navigate to the sign up Fragment
                 break;
             case R.id.login_button_login:
                 if (isUserValidate()) {
@@ -166,14 +148,91 @@ public class LoginFragment extends Fragment {
                 }
                 break;
             case R.id.textView_forget_password:
-                ((NavigationHost) getActivity()).navigateTo(new ForgetPasswordFragment(), true); // Navigate to the grid Fragment
-                break;
-            case R.id.login_button:
-                buttonLoginListener(v);
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new ForgetPasswordFragment(), true); // Navigate to the grid Fragment
                 break;
 
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setFaceBookLoginButton(View view) {
+        mCallbackManager = CallbackManager.Factory.create();
+        facebookLoginButton.setReadPermissions("email", "public_profile");
+        facebookLoginButton.setLogoutText("Continue with Facebook");
+        facebookLoginButton.setFragment(this);
+        facebookLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.d(TAG, "facebook:onCancel");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d(TAG, "facebook:onError", error);
+            }
+        });
+    }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // Sign in success, update UI with the signed-in user's information
+                Log.d(TAG, "signInWithCredential:success");
+                firebaseUser = mAuth.getCurrentUser();
+                if (!firebaseUser.isEmailVerified()) {
+                    firebaseUser.sendEmailVerification().addOnCompleteListener(task1 -> {
+                        Toast.makeText(getActivity(), "Verification Email is sent to " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                        mAuth.signOut();
+                        LoginManager.getInstance().logOut();
+                    });
+                } else {
+                    ((NavigationHost) getActivity()).navigateTo(new AccessoryGridFragment(), false); // Navigate to the grid Fragment
+                    facebookLoginButton.setLogoutText("Logout");
+                }
+                Log.d(TAG, "handleFacebookAccessToken: " + mAuth.getUid());
+                Profile profile = Profile.getCurrentProfile();
+                User user = new User();
+                user.setEmail(mAuth.getCurrentUser().getEmail());
+                user.setFirstName(profile.getFirstName());
+                user.setLastName(profile.getLastName());
+                FirebaseDatabase.getInstance().getReference("users")
+                        .child(mAuth.getCurrentUser().getUid())
+                        .setValue(user).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Log.d(TAG, "handleFacebookAccessToken: ");
+                    } else {
+                        Log.e(TAG, "handleFacebookAccessToken: " + task1.getException().getMessage(), task1.getException());
+                    }
+                });
+                onResume();
+            } else {
+                // If sign in fails, display a message to the user.
+                Log.w(TAG, "signInWithCredential:failure", task.getException());
+                Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+//        if (!EmailVerificationBoolean) {
+//            firebaseUser.sendEmailVerification().addOnCompleteListener(task -> Toast.makeText(LogInActivity.this, "Verification Email is sent to " + mAuth.getCurrentUser().getEmail(), Toast.LENGTH_LONG).show());
+//            mAuth.signOut();
+//            LoginManager.getInstance().logOut();
+//        }
     }
 
     private boolean isUserValidate() {
@@ -209,8 +268,6 @@ public class LoginFragment extends Fragment {
                                     Iterable<DataSnapshot> iterable = dataSnapshot.child("users").getChildren();
                                     for (DataSnapshot snapshot : iterable) {
                                         if (Objects.equals(snapshot.getKey(), mAuth.getUid())) {
-                                            validateBoolean = true;
-                                            user = snapshot.getValue(User.class);
                                             ((NavigationHost) getActivity()).navigateTo(new AccessoryGridFragment(), false); // Navigate to the grid Fragment
                                             break;
                                         }
@@ -230,6 +287,17 @@ public class LoginFragment extends Fragment {
                         Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void googleLoginButton(){
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        // Build a GoogleSignInClient with the options specified by gso.
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(MyApplication.getAppContext(), gso);
+
+
     }
 
 }

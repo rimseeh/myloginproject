@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -58,7 +59,7 @@ dependencies {
     //
     implementation 'com.github.MindorksOpenSource:EditDrawableText:1.1.0'
 
-    //facebook repro
+    //facebook repro auth
     implementation 'com.facebook.android:facebook-login:[4,5)'
 
     //picso image
@@ -66,4 +67,10 @@ dependencies {
 
     //zoomy images
     implementation 'com.ablanco.zoomy:zoomy:1.1.0'
+
+    //google auth
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+
+    //google button
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
 }

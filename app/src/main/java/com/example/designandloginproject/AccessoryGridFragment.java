@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.models.Accessory;
+import com.facebook.login.LoginManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -68,39 +71,64 @@ public class AccessoryGridFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             view.findViewById(R.id.accessory_swipe_refresh_layout).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
         }
+
         swipeRefreshLayout.setRefreshing(true);
-        FirebaseDatabase.getInstance().getReference().child("images").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                swipeRefreshLayout.setRefreshing(false);
-                for (DataSnapshot document : dataSnapshot.getChildren()) {
-                    Accessory accessory = document.getValue(Accessory.class);
+        Query query = FirebaseFirestore.getInstance().collection("accessory_images").limit(4);
+        query.get().addOnCompleteListener(task -> {
+            swipeRefreshLayout.setRefreshing(false);
+            if (task.isSuccessful()) {
+                accessories = new ArrayList<>();
+                for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    Accessory accessory = document.toObject(Accessory.class);
                     assert accessory != null;
-                    accessory.setId(document.getKey());
+                    accessory.setId(document.getId());
                     accessories.add(accessory);
                 }
+                Log.d(TAG, "onComplete: " + accessories.toString());
                 adapter = new AccessoryCardRecyclerViewAdapter(accessories, (MainActivity) getActivity());
                 int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
                 int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
                 recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
                 Log.d(TAG, "onCreateView: " + accessories);
                 recyclerView.setAdapter(adapter);
-
-            }
-
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
+            } else {
+                Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         });
+//        FirebaseDatabase.getInstance().getReference().child("images").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                swipeRefreshLayout.setRefreshing(false);
+//                for (DataSnapshot document : dataSnapshot.getChildren()) {
+//                    Accessory accessory = document.getValue(Accessory.class);
+//                    assert accessory != null;
+//                    accessory.setId(document.getKey());
+//                    accessories.add(accessory);
+//                }
+//                adapter = new AccessoryCardRecyclerViewAdapter(accessories, (MainActivity) getActivity());
+//                int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
+//                int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
+//                recyclerView.addItemDecoration(new ProductGridItemDecoration(largePadding, smallPadding));
+//                Log.d(TAG, "onCreateView: " + accessories);
+//                recyclerView.setAdapter(adapter);
+//
+//            }
+
+
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
         swipeRefreshLayout.setOnRefreshListener(() -> swipeRefreshLayout.setRefreshing(false));
         return view;
     }
 
     @OnClick(R.id.backdrop_logout_button)
-    void onClick(){
+    void onClick() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
+        LoginManager.getInstance().logOut();
         ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the grid Fragment
     }
 
