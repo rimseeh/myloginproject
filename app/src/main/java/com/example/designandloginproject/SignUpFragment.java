@@ -14,6 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,6 +48,7 @@ import java.util.regex.Pattern;
 public class SignUpFragment extends Fragment {
 
     private float x1,x2,y1,y2;
+    DisplayMetrics displayMetrics = new DisplayMetrics();
     private static final String TAG = "SignUpFragment";
     private static final Boolean ERROR = true;
 
@@ -269,6 +271,8 @@ public class SignUpFragment extends Fragment {
 
     @OnTouch(R.id.layout)
     public boolean onTouchEvent(MotionEvent touchEvent){
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
         switch (touchEvent.getAction()){
             case MotionEvent.ACTION_DOWN:
                 x1=touchEvent.getX();
@@ -277,7 +281,7 @@ public class SignUpFragment extends Fragment {
             case MotionEvent.ACTION_UP:
                 x2=touchEvent.getX();
                 y2=touchEvent.getY();
-                if(x1+150<x2){
+                if(x1+displayMetrics.widthPixels/2<x2){
                     ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
                 }
                 break;
