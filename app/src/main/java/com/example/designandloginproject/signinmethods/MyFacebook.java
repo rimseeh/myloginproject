@@ -2,10 +2,9 @@ package com.example.designandloginproject.signinmethods;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.example.designandloginproject.AccessoryGridFragment;
+import com.example.designandloginproject.fragments.AccessoryGridFragment;
 import com.example.designandloginproject.NavigationHost;
 import com.example.designandloginproject.models.User;
 import com.facebook.AccessToken;

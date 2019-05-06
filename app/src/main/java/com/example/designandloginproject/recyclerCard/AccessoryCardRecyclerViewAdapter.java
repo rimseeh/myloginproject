@@ -1,4 +1,4 @@
-package com.example.designandloginproject;
+package com.example.designandloginproject.recyclerCard;
 
 
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 
 import com.ablanco.zoomy.Zoomy;
+import com.example.designandloginproject.R;
 import com.example.designandloginproject.models.Accessory;
 import com.example.designandloginproject.network.ImageRequester;
 
@@ -25,7 +26,7 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     private ImageRequester imageRequester;
     private Activity activity;
 
-    AccessoryCardRecyclerViewAdapter(List<Accessory> accessories,Activity activity) {
+    public AccessoryCardRecyclerViewAdapter(List<Accessory> accessories, Activity activity) {
         this.accessories = accessories;
         imageRequester = ImageRequester.getInstance();
         this.activity=activity;

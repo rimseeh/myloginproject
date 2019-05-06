@@ -27,7 +27,7 @@
             android:padding="16dp">
 
             <TextView
-                android:id="@+id/product_title"
+                android:id="@+id/accessory_cart_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/product_title"
@@ -35,7 +35,7 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/accessory_cart_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/product_description"

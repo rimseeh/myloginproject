@@ -7,7 +7,7 @@
     <dimen name="product_grid_reveal_height">200dp</dimen>
 
     <!-- Dimens for staggered asymmetric grid layout cards-->
-    <dimen name="staggered_product_grid_spacing_large">30dp</dimen>
+    <dimen name="staggered_accessory_grid_spacing_large">30dp</dimen>
     <dimen name="staggered_product_grid_spacing_small">26dp</dimen>
     <dimen name="staggered_product_grid_margin_top_first">72dp</dimen>
     <dimen name="staggered_product_grid_margin_top_second">56dp</dimen>
@@ -18,4 +18,9 @@
     <dimen name="staggered_product_grid_card_height_landscape">140dp</dimen>
     <dimen name="logo_width">64dp</dimen>
     <dimen name="logo_height">64dp</dimen>
+    <dimen name="small_logo_width">32dp</dimen>
+    <dimen name="small_logo_height">32dp</dimen>
+    <dimen name="small_circle_radius">16dp</dimen>
+    <dimen name="normal_image_view_width">96dp</dimen>
+    <dimen name="normal_image_view_height">96dp</dimen>
 </resources>

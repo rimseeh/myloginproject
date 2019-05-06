@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.designandloginproject.AccessoryGridFragment;
+import com.example.designandloginproject.fragments.AccessoryGridFragment;
 import com.example.designandloginproject.NavigationHost;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;

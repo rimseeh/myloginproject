@@ -1,4 +1,4 @@
-package com.example.designandloginproject;
+package com.example.designandloginproject.fragments;
 
 
 import android.app.DatePickerDialog;
@@ -7,17 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTouch;
 
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -27,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.designandloginproject.NavigationHost;
+import com.example.designandloginproject.R;
 import com.example.designandloginproject.models.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -47,8 +45,8 @@ import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment {
 
-    private float x1,x2,y1,y2;
-    DisplayMetrics displayMetrics = new DisplayMetrics();
+//    private float x1,x2,y1,y2;
+//    DisplayMetrics displayMetrics = new DisplayMetrics();
     private static final String TAG = "SignUpFragment";
     private static final Boolean ERROR = true;
 
@@ -269,24 +267,24 @@ public class SignUpFragment extends Fragment {
         };
     }
 
-    @OnTouch(R.id.layout)
-    public boolean onTouchEvent(MotionEvent touchEvent){
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        switch (touchEvent.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                x1=touchEvent.getX();
-                y1=touchEvent.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                x2=touchEvent.getX();
-                y2=touchEvent.getY();
-                if(x1+displayMetrics.widthPixels/2<x2){
-                    ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
-                }
-                break;
-        }
-        return false;
-    }
+//    @OnTouch(R.id.layout)
+//    public boolean onTouchEvent(MotionEvent touchEvent){
+//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//
+//        switch (touchEvent.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                x1=touchEvent.getX();
+//                y1=touchEvent.getY();
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                x2=touchEvent.getX();
+//                y2=touchEvent.getY();
+//                if(x1+displayMetrics.widthPixels/2<x2){
+//                    ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
+//                }
+//                break;
+//        }
+//        return false;
+//    }
 
 }

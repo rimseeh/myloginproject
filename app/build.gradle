@@ -73,4 +73,8 @@ dependencies {
 
     //google button
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.0.0'
+
+    //corner cut
+    implementation 'com.github.florent37:shapeofview:1.3.2'
+
 }

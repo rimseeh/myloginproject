@@ -7,13 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.example.designandloginproject.MainActivity;
 import com.example.designandloginproject.NavigationHost;
-import com.example.designandloginproject.NetworkErrorFragment;
-import com.example.designandloginproject.SignUpFragment;
+import com.example.designandloginproject.fragments.NetworkErrorFragment;
 import com.example.designandloginproject.application.MyApplication;
-
-import androidx.fragment.app.FragmentTransaction;
 
 public class ConnectivityReceiver extends BroadcastReceiver {
 

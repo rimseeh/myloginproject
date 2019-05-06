@@ -1,22 +1,15 @@
 package com.example.designandloginproject.signinmethods;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.designandloginproject.AccessoryGridFragment;
+import com.example.designandloginproject.fragments.AccessoryGridFragment;
 import com.example.designandloginproject.NavigationHost;
 import com.example.designandloginproject.R;
-import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.models.User;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
@@ -26,7 +19,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
 
 public class MyGoogle {
     private static final String TAG = "MyGoogle";

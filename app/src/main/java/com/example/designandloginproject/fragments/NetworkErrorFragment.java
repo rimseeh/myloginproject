@@ -1,4 +1,4 @@
-package com.example.designandloginproject;
+package com.example.designandloginproject.fragments;
 
 
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.designandloginproject.MainActivity;
+import com.example.designandloginproject.R;
 import com.example.designandloginproject.network.ConnectivityReceiver;
 import com.google.android.material.button.MaterialButton;
 
@@ -55,7 +57,7 @@ public class NetworkErrorFragment extends Fragment {
     private void isConnectedToNetwork(){
         swipeRefreshLayout.setRefreshing(true);
         if(ConnectivityReceiver.isConnected()){
-            Intent intent = new Intent(getActivity(),MainActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             getActivity().startActivity(intent);
             getActivity().finish();
         }

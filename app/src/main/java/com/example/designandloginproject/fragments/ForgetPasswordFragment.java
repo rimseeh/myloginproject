@@ -1,4 +1,4 @@
-package com.example.designandloginproject;
+package com.example.designandloginproject.fragments;
 
 
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.designandloginproject.R;
 import com.example.designandloginproject.models.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;

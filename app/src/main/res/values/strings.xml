@@ -66,5 +66,7 @@
     <string name="try_again">Try Again</string>
     <string name="internet_error">No Internet Connection\n Please try Again</string>
     <string name="facebook_user_cancel">User Canceled</string>
+    <string name="cart">CART</string>
+    <string name="items">ITEMS</string>
 
 </resources>

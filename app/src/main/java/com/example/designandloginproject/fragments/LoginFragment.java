@@ -1,4 +1,4 @@
-package com.example.designandloginproject;
+package com.example.designandloginproject.fragments;
 
 
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.designandloginproject.NavigationHost;
+import com.example.designandloginproject.R;
 import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.models.User;
 import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
@@ -116,7 +118,7 @@ public class LoginFragment extends Fragment {
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_button_login:
-                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new SignUpFragment(), true); // Navigate to the sign up Fragment
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateToWithAnimation(new SignUpFragment(), true,R.anim.enter_from_buttom_right,R.anim.exit_to_buttom_right); // Navigate to the sign up Fragment
                 break;
             case R.id.login_button_login:
                 if (isUserValidate()) {
