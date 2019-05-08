@@ -6,6 +6,8 @@
 
     <dimen name="product_grid_reveal_height">100dp</dimen>
 
+    <dimen name="button_margin">15dp</dimen>
+    <dimen name="button_cut_corner">10dp</dimen>
     <!-- Dimens for staggered asymmetric grid layout cards-->
     <dimen name="staggered_accessory_grid_spacing_large">30dp</dimen>
     <dimen name="staggered_product_grid_spacing_small">26dp</dimen>

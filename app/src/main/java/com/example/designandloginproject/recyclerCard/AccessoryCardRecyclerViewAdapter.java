@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import com.ablanco.zoomy.Zoomy;
+import com.android.volley.toolbox.NetworkImageView;
 import com.example.designandloginproject.R;
 import com.example.designandloginproject.models.Accessory;
 import com.example.designandloginproject.network.ImageRequester;
@@ -20,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * Adapter used to show a simple grid of products.
  */
-public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<AccessoryCardViewHolder> {
+public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<AccessoryCardRecyclerViewAdapter.AccessoryCardViewHolder> {
 
     private List<Accessory> accessories;
     private ImageRequester imageRequester;
@@ -56,4 +58,18 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     public int getItemCount() {
         return accessories.size();
     }
+
+    static class AccessoryCardViewHolder extends RecyclerView.ViewHolder {
+
+        NetworkImageView accessoryImage;
+        TextView accessoryTitle;
+        TextView accessoryPrice;
+
+        AccessoryCardViewHolder(@NonNull View itemView) {
+           super(itemView);
+           accessoryImage = itemView.findViewById(R.id.product_image);
+           accessoryTitle = itemView.findViewById(R.id.accessory_cart_title);
+           accessoryPrice = itemView.findViewById(R.id.accessory_cart_description);
+       }
+   }
 }

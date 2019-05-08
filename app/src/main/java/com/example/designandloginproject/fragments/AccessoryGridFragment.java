@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.NetworkImageView;
+import com.example.designandloginproject.network.ImageRequester;
 import com.example.designandloginproject.recyclerCard.AccessoryCardRecyclerViewAdapter;
 import com.example.designandloginproject.recyclerCard.AccessoryGridItemDecoration;
 import com.example.designandloginproject.NavigationHost;
@@ -24,6 +28,11 @@ import com.facebook.login.LoginManager;
 import com.github.florent37.shapeofview.shapes.CutCornerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -35,6 +44,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,12 +64,15 @@ public class AccessoryGridFragment extends Fragment {
 
     @BindView(R.id.shopping_cart_image_button)
     ImageButton cartImageView;
+    @BindView(R.id.cart_linear_layout)
+    LinearLayout cartLinearLayout;
 
     @BindView(R.id.bottomCartSheet)
     CutCornerView cutCornerViewCart;
     static ArrayList<Accessory> accessories = new ArrayList<>();
     private AccessoryCardRecyclerViewAdapter adapter;
     View view;
+    FirebaseAuth mAuth=FirebaseAuth.getInstance();
 
     @Override
     public View onCreateView(
@@ -100,6 +113,10 @@ public class AccessoryGridFragment extends Fragment {
                 Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         });
+        setCartKeysAndCartAccessories();
+
+
+
 
         swipeRefreshLayout.setOnRefreshListener(() -> swipeRefreshLayout.setRefreshing(false));
         return view;
@@ -146,6 +163,54 @@ public class AccessoryGridFragment extends Fragment {
                 getContext().getResources().getDrawable(R.drawable.branded_menu), // Menu open icon
                 getContext().getResources().getDrawable(R.drawable.close_menu)) // Menu close icon
         );
+    }
+
+
+    private void setCartKeysAndCartAccessories() {
+        ArrayList<String> cartKeys =new ArrayList<String>();
+        FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference= firebaseDatabase.getReference("cart/"+mAuth.getUid());
+        ArrayList<Accessory> cartAccessories = new ArrayList<>();
+        Query query = FirebaseFirestore.getInstance().collection("accessory_images");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        cartKeys.add(snapshot.getKey());
+                    }
+                    Log.d(TAG, "onDataChange: "+cartKeys.toString());
+                    query.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                Log.d(TAG, "onDataChange: "+document.getId());
+                                if(cartKeys.contains(document.getId())){
+                                    cartAccessories.add(document.toObject(Accessory.class));
+                                    if(cartAccessories.size()==2){
+                                        break;
+                                    }
+                                }
+                            }
+                            NetworkImageView networkImageView=new NetworkImageView(MyApplication.getAppContext());
+                            networkImageView.setLayoutParams(new LinearLayout.LayoutParams(96,96));
+                            networkImageView.setBackgroundResource(R.drawable.circle_view);
+                            cartLinearLayout.addView(networkImageView);
+                            ImageRequester.getInstance().setImageFromUrl(networkImageView,cartAccessories.get(0).getUrl());
+                            Log.d(TAG, "onDataChange:"+cartAccessories.toString());
+
+                        } else {
+                            Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
     }
 
 }
