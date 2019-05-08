@@ -4,7 +4,7 @@
     <dimen name="product_grid_spacing_small">4dp</dimen>
     <dimen name="product_card_image_height">108dp</dimen>
 
-    <dimen name="product_grid_reveal_height">200dp</dimen>
+    <dimen name="product_grid_reveal_height">100dp</dimen>
 
     <!-- Dimens for staggered asymmetric grid layout cards-->
     <dimen name="staggered_accessory_grid_spacing_large">30dp</dimen>

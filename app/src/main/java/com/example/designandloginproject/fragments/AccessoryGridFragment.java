@@ -10,14 +10,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.designandloginproject.recyclerCard.AccessoryCardRecyclerViewAdapter;
 import com.example.designandloginproject.recyclerCard.AccessoryGridItemDecoration;
-import com.example.designandloginproject.MainActivity;
 import com.example.designandloginproject.NavigationHost;
 import com.example.designandloginproject.animation.NavigationIconClickListener;
 import com.example.designandloginproject.R;
@@ -38,7 +35,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,26 +52,20 @@ public class AccessoryGridFragment extends Fragment {
     @BindView(R.id.backdrop_logout_button)
     MaterialButton logoutButton;
 
-    @BindView(R.id.cart_layout)
-    ConstraintLayout cartLayout;
+    @BindView(R.id.shopping_cart_image_button)
+    ImageButton cartImageView;
 
-    @BindView(R.id.shopping_cart_image_view)
-    ImageView cartImageView;
-
-
-    @BindView(R.id.cart_layout_back_image_button)
-    ImageButton cartBackimageButton;
     @BindView(R.id.bottomCartSheet)
     CutCornerView cutCornerViewCart;
-    private DocumentSnapshot lastVisible;
-    ArrayList<Accessory> accessories = new ArrayList<>();
-    AccessoryCardRecyclerViewAdapter adapter;
+    static ArrayList<Accessory> accessories = new ArrayList<>();
+    private AccessoryCardRecyclerViewAdapter adapter;
+    View view;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment with the ProductGrid theme
-        View view = inflater.inflate(R.layout.accessory_grid_fragment, container, false);
+        view = inflater.inflate(R.layout.accessory_grid_fragment, container, false);
         ButterKnife.bind(this, view);
         // Set up the toolbar
         setUpToolbar(view);
@@ -84,9 +74,7 @@ public class AccessoryGridFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, RecyclerView.VERTICAL, false));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            view.findViewById(R.id.accessory_swipe_refresh_layout).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
-        }
+        view.findViewById(R.id.accessory_swipe_refresh_layout).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
 
         swipeRefreshLayout.setRefreshing(true);
         Query query = FirebaseFirestore.getInstance().collection("accessory_images").limit(4);
@@ -101,69 +89,36 @@ public class AccessoryGridFragment extends Fragment {
                     accessories.add(accessory);
                 }
                 Log.d(TAG, "onComplete: " + accessories.toString());
-                adapter = new AccessoryCardRecyclerViewAdapter(accessories, (MainActivity) getActivity());
+                adapter = new AccessoryCardRecyclerViewAdapter(accessories,getActivity());
                 int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
                 int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
                 recyclerView.addItemDecoration(new AccessoryGridItemDecoration(largePadding, smallPadding));
                 Log.d(TAG, "onCreateView: " + accessories);
                 recyclerView.setAdapter(adapter);
-                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
+//                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
             } else {
                 Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-//        FirebaseDatabase.getInstance().getReference().child("images").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                swipeRefreshLayout.setRefreshing(false);
-//                for (DataSnapshot document : dataSnapshot.getChildren()) {
-//                    Accessory accessory = document.getValue(Accessory.class);
-//                    assert accessory != null;
-//                    accessory.setId(document.getKey());
-//                    accessories.add(accessory);
-//                }
-//                adapter = new AccessoryCardRecyclerViewAdapter(accessories, (MainActivity) getActivity());
-//                int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
-//                int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
-//                recyclerView.addItemDecoration(new AccessoryGridItemDecoration(largePadding, smallPadding));
-//                Log.d(TAG, "onCreateView: " + accessories);
-//                recyclerView.setAdapter(adapter);
-//
-//            }
 
-
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
         swipeRefreshLayout.setOnRefreshListener(() -> swipeRefreshLayout.setRefreshing(false));
         return view;
     }
 
-    @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_view, R.id.cart_layout_back_image_button})
+    @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_button})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.backdrop_logout_button:
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
                 LoginManager.getInstance().logOut();
-                ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the grid Fragment
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new LoginFragment(), false); // Navigate to the grid Fragment
                 break;
-            case R.id.shopping_cart_image_view:
-                startBottomToTopAnimation(cartLayout,View.VISIBLE,R.anim.enter_from_buttom_right);
-                cutCornerViewCart.setVisibility(View.GONE);
-                break;
-            case R.id.cart_layout_back_image_button:
-                startBottomToTopAnimation(cartLayout,View.GONE,R.anim.exit_to_buttom_right);
-                cutCornerViewCart.setVisibility(View.VISIBLE);
+            case R.id.shopping_cart_image_button:
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateToWithAnimation(new CartFragment(), true,R.anim.enter_from_buttom_right,R.anim.fade_out,R.anim.fade_in,R.anim.exit_to_buttom_right); // Navigate to the grid Fragment
                 break;
         }
 
-    }
-
-    private void startBottomToTopAnimation(View view,int visibility,int animation) {
-        view.startAnimation(AnimationUtils.loadAnimation(MyApplication.getAppContext(), animation));
-        view.setVisibility(visibility);
     }
 
     @Override

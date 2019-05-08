@@ -12,6 +12,6 @@ public interface NavigationHost {
      * stack to make this navigation reversible.
      */
     void navigateTo(Fragment fragment, boolean addToBackStack);
-    void navigateToWithAnimation(Fragment fragment, boolean addToBackStack,int animationIn,int animationOut);
+    void navigateToWithAnimation(Fragment fragment, boolean addToBackStack, int animationIn, int animationOut,int backAnimationIn,int backAnimationOut);
 
 }

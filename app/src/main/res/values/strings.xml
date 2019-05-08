@@ -68,5 +68,7 @@
     <string name="facebook_user_cancel">User Canceled</string>
     <string name="cart">CART</string>
     <string name="items">ITEMS</string>
+    <string name="money">Money</string>
+    <string name="total">Total</string>
 
 </resources>

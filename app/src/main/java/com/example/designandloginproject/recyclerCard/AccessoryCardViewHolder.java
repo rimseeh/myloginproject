@@ -10,16 +10,16 @@ import com.example.designandloginproject.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AccessoryCardViewHolder extends RecyclerView.ViewHolder {
+ class AccessoryCardViewHolder extends RecyclerView.ViewHolder {
 
-    public NetworkImageView productImage;
-    public TextView productTitle;
-    public TextView productPrice;
+     NetworkImageView accessoryImage;
+     TextView accessoryTitle;
+     TextView accessoryPrice;
 
-    public AccessoryCardViewHolder(@NonNull View itemView) {
+     AccessoryCardViewHolder(@NonNull View itemView) {
         super(itemView);
-        productImage = itemView.findViewById(R.id.product_image);
-        productTitle = itemView.findViewById(R.id.accessory_cart_title);
-        productPrice = itemView.findViewById(R.id.accessory_cart_description);
+        accessoryImage = itemView.findViewById(R.id.product_image);
+        accessoryTitle = itemView.findViewById(R.id.accessory_cart_title);
+        accessoryPrice = itemView.findViewById(R.id.accessory_cart_description);
     }
 }

@@ -118,7 +118,7 @@ public class LoginFragment extends Fragment {
     void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_button_login:
-                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateToWithAnimation(new SignUpFragment(), true,R.anim.enter_from_buttom_right,R.anim.exit_to_buttom_right); // Navigate to the sign up Fragment
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new SignUpFragment(), true); // Navigate to the sign up Fragment
                 break;
             case R.id.login_button_login:
                 if (isUserValidate()) {
@@ -188,14 +188,14 @@ public class LoginFragment extends Fragment {
 
     private boolean isUserValidate() {
         boolean validateBoolean = true;
-        if (!User.isEmailValid(emailEditText.getText().toString())) {
+        if (!User.isEmailValid(Objects.requireNonNull(emailEditText.getText()).toString())) {
             emailTextInputLayout.setError(getString(R.string.error_email));
             validateBoolean = false;
         } else {
             emailTextInputLayout.setError(null);
         }
 
-        if (!Pattern.compile(getString(R.string.password_special_char)).matcher(passwordEditText.getText().toString()).matches()) {
+        if (!Pattern.compile(getString(R.string.password_special_char)).matcher(Objects.requireNonNull(passwordEditText.getText()).toString()).matches()) {
             passwordTextInputLayout.setError(getString(R.string.error_password));
             validateBoolean = false;
         } else {

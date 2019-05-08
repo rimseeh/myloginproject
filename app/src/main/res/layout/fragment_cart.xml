@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_gravity="left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:elevation="10dp"
+        tools:context=".fragments.CartFragment">
+
+        <LinearLayout
+            android:id="@+id/shopping_cart_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.526"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded">
+
+            <ImageButton
+                android:id="@+id/shopping_cart_back_image_button"
+                android:layout_width="@dimen/small_logo_width"
+                android:layout_height="@dimen/small_logo_height"
+                android:layout_margin="20dp"
+                android:background="@drawable/circle_view"
+                android:src="@drawable/ic_back"
+                android:layout_weight="0"
+                />
+
+            <TextView
+                android:id="@+id/shopping_cart_accessory_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cart"
+                android:layout_margin="10dp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/shopping_cart_accessory_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/items"
+                android:layout_margin="10dp"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:layout_weight="10"
+                />
+        </LinearLayout>
+
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/shopping_cart_accessory_grid"
+            android:layout_width="match_parent"
+            android:layout_height="658dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="@dimen/product_grid_spacing"
+            android:paddingEnd="@dimen/product_grid_spacing"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shopping_cart_view_line"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="PrivateResource"
+            tools:layout_editor_absoluteX="0dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shopping_cart_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/shopping_cart_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@+id/shopping_cart_header"
+            tools:layout_editor_absoluteX="10dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

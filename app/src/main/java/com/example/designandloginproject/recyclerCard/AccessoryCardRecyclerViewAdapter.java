@@ -44,10 +44,10 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
         // TODO: Put ViewHolder binding code here in MDC-102
         if (accessories != null && position < accessories.size()) {
             Accessory accessory = accessories.get(position);
-            holder.productTitle.setText(accessory.getTitle());
-            holder.productPrice.setText(accessory.getPrice());
-            imageRequester.setImageFromUrl(holder.productImage, accessory.getUrl());
-            Zoomy.Builder builder = new Zoomy.Builder(activity).target(holder.productImage);
+            holder.accessoryTitle.setText(accessory.getTitle());
+            holder.accessoryPrice.setText(accessory.getPrice());
+            imageRequester.setImageFromUrl(holder.accessoryImage, accessory.getUrl());
+            Zoomy.Builder builder = new Zoomy.Builder(activity).target(holder.accessoryImage);
             builder.register();
         }
     }
