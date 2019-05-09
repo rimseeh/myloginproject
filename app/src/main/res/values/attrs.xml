@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="accentColor" format="color"/>
+        <attr name="primaryColor" format="color"/>
+        <attr name="primaryLightColor" format="color"/>
+        <attr name="primaryDarkColor" format="color"/>
+        <attr name="secondaryColor" format="color"/>
+        <attr name="secondaryLightColor" format="color"/>
+        <attr name="secondaryDarkColor" format="color"/>
+        <attr name="primaryTextColor" format="color"/>
+        <attr name="secondaryTextColor" format="color"/>
+        <attr name="toolbarIconColor" format="color"/>
+        <attr name="loginPageBackgroundColor" format="color"/>
+        <attr name="controlActivatedColor" format="color"/>
+        <attr name="productGridBackgroundColor" format="color"/>
+        <attr name="iconColor" format="color"/>
+
+    </declare-styleable>
+    
+</resources>

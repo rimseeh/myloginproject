@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E0E0E0</color>
-    <color name="colorPrimaryDark">#FBB8AC</color>
-    <color name="colorAccent">#FEDBD0</color>
-    <color name="textColorPrimary">#442C2E</color>
-    <color name="toolbarIconColor">@color/textColorPrimary</color>
-    <color name="loginPageBackgroundColor">#FFFFFF</color>
-    <color name="colorControlActivated">#FBB8AC</color>
-    <color name="productGridBackgroundColor">#FFFBFA</color>
-    <color name="design_text_input_error_color">#FFDD2C00</color>
+    <color name="AccentColor">#FEDBD0</color>
+    <color name="dayAccentColor">#FEDBD0</color>
+    <color name="dayPrimaryColor">#E0E0E0</color>
+    <color name="dayPrimaryLightColor">#ffebde</color>
+    <color name="dayPrimaryDarkColor">#FBB8AC</color>
+    <color name="daySecondaryColor">#ef9a9a</color>
+    <color name="daySecondaryLightColor">#ffcccb</color>
+    <color name="daySecondaryDarkColor">#ba6b6c</color>
+    <color name="dayPrimaryTextColor">#513335</color>
+    <color name="daySecondaryTextColor">#442C2E</color>
+    <color name="dayToolbarIconColor">@color/dayPrimaryTextColor</color>
+    <color name="dayLoginPageBackgroundColor">#FFFFFF</color>
+    <color name="dayControlActivatedColor">@color/dayPrimaryDarkColor</color>
+    <color name="dayProductGridBackgroundColor">#FFFBFA</color>
+    <color name="dayIconColor">#442B2D</color>
+
+    <color name="nightAccentColor">#302826</color>
+    <color name="nightPrimaryColor">#281b18</color>
+    <color name="nightPrimaryLightColor">#51423e</color>
+    <color name="nightPrimaryDarkColor">#000000</color>
+    <color name="nightSecondaryColor">#4c2f2f</color>
+    <color name="nightSecondaryLightColor">#795858</color>
+    <color name="nightSecondaryDarkColor">#240705</color>
+    <color name="nightPrimaryTextColor">#ffffff</color>
+    <color name="nightSecondaryTextColor">#ffffff</color>
+    <color name="nightToolbarIconColor">@color/dayPrimaryTextColor</color>
+    <color name="nightLoginPageBackgroundColor">#000000</color>
+    <color name="nightControlActivatedColor">@color/nightPrimaryLightColor</color>
+    <color name="nightProductGridBackgroundColor">#000405</color>
+    <color name="nightIconColor">#FBB8AC</color>
+
+    <color name="errorColor">#FFDD2C00</color>
 
 </resources>

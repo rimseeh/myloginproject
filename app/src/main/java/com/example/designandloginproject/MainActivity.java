@@ -34,9 +34,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationHost {
-//    private FirebaseFirestore db;
 
-//    private static final String TAG = "MainActivity";
     private BroadcastReceiver mNetworkReceiver;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
 

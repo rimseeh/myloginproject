@@ -47,7 +47,7 @@
         android:layout_width="56dp"
         android:layout_height="1dp"
         android:layout_margin="16dp"
-        android:background="?android:attr/textColorPrimary" />
+        android:background="@color/dayPrimaryTextColor" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
@@ -58,7 +58,7 @@
         android:layout_width="56dp"
         android:layout_height="1dp"
         android:layout_margin="16dp"
-        android:background="?android:attr/textColorPrimary" />
+        android:background="@color/dayPrimaryTextColor" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/backdrop_logout_button"

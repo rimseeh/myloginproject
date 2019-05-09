@@ -48,7 +48,7 @@
         android:id="@+id/accessory_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/productGridBackgroundColor"
+        android:background="@color/dayProductGridBackgroundColor"
         android:elevation="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,10 +79,6 @@
         android:id="@+id/bottomCartSheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="8dp"
         android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,7 +88,7 @@
             android:id="@+id/cart_linear_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
+            android:background="@color/dayAccentColor"
             android:orientation="horizontal"
             android:paddingLeft="22dp"
             android:paddingTop="12dp"
@@ -101,9 +97,9 @@
 
             <ImageButton
                 android:id="@+id/shopping_cart_image_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent"
+                android:layout_width="@dimen/small_logo_width"
+                android:layout_height="@dimen/small_logo_height"
+                android:background="@color/dayAccentColor"
                 app:srcCompat="@drawable/ic_shopping_cart"
                 tools:ignore="ContentDescription" />
         </LinearLayout>

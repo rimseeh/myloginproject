@@ -1,16 +1,54 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
+    <!-- Light/Day Mode theme -->
     <style name="Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+       <item name="colorAccent">@color/dayAccentColor</item>
+        <item name="primaryColor">@color/dayPrimaryColor</item>
+        <item name="primaryLightColor" >@color/dayPrimaryLightColor</item>
+        <item name="primaryDarkColor">@color/dayPrimaryDarkColor</item>
+        <item name="secondaryColor" >@color/daySecondaryColor</item>
+        <item name="secondaryLightColor" >@color/daySecondaryLightColor</item>
+        <item name="secondaryDarkColor" >@color/daySecondaryDarkColor</item>
+        <item name="primaryTextColor" >@color/dayPrimaryTextColor</item>
+        <item name="secondaryTextColor">@color/daySecondaryTextColor</item>
+        <item name="toolbarIconColor" >@color/dayToolbarIconColor</item>
+        <item name="loginPageBackgroundColor" >@color/dayLoginPageBackgroundColor</item>
+        <item name="controlActivatedColor" >@color/dayControlActivatedColor</item>
+        <item name="productGridBackgroundColor" >@color/dayProductGridBackgroundColor</item>
+        <item name="iconColor">@color/dayIconColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="colorPrimaryDark">@color/dayPrimaryDarkColor</item>
     </style>
 
+    <!-- Base application theme. -->
+    <!-- Dark/Night  Mode theme -->
+    <style name="DarkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="accentColor"> @color/nightAccentColor</item>
+        <item name="primaryColor">@color/nightPrimaryColor</item>
+        <item name="primaryLightColor" >@color/nightPrimaryLightColor</item>
+        <item name="primaryDarkColor">@color/nightPrimaryDarkColor</item>
+        <item name="secondaryColor" >@color/nightSecondaryColor</item>
+        <item name="secondaryLightColor" >@color/nightSecondaryLightColor</item>
+        <item name="secondaryDarkColor" >@color/nightSecondaryDarkColor</item>
+        <item name="primaryTextColor" >@color/nightPrimaryTextColor</item>
+        <item name="secondaryTextColor">@color/nightSecondaryTextColor</item>
+        <item name="toolbarIconColor" >@color/nightToolbarIconColor</item>
+        <item name="loginPageBackgroundColor" >@color/nightLoginPageBackgroundColor</item>
+        <item name="controlActivatedColor" >@color/nightControlActivatedColor</item>
+        <item name="productGridBackgroundColor" >@color/nightProductGridBackgroundColor</item>
+        <item name="iconColor">@color/nightIconColor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:textColorPrimary">@color/nightPrimaryTextColor</item>
+        <item name="colorPrimaryDark">@color/nightPrimaryDarkColor</item>
+
+    </style>
+
+
+
+
     <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+
         <item name="android:background">?attr/colorAccent</item>
         <item name="android:theme">@style/Theme</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
@@ -31,12 +69,15 @@
     </style>
 
     <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="backgroundTint">?attr/colorPrimaryDark</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="backgroundTint">?attr/primaryDarkColor</item>
         <item name="android:stateListAnimator" tools:ignore="NewApi">@animator/next_button_state_list_anim</item>
     </style>
 
     <style name="Widget.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+    <style name="Widget.TextView.Text" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
@@ -64,9 +105,9 @@
     </style>
 
     <style name="DatePickerTheme" parent="@android:style/Theme.Holo.Light.Dialog.MinWidth">
-        <item name="android:textColor">@color/textColorPrimary</item>
+        <item name="android:textColor">@color/dayPrimaryTextColor</item>
         <item name="android:background">@null</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorPrimary">@color/dayPrimaryTextColor</item>
     </style>
 
 </resources>

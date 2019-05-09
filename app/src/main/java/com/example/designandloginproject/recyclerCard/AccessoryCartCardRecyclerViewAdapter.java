@@ -75,18 +75,17 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     @Override
     public int getItemCount() {
-        return cartAccessories.size() + 1;
+        return cartAccessories.size() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == cartAccessories.size() - 1) {
+        if(position<cartAccessories.size()){
+            return VIEW_TYPE_CART;
+        }else if (position == getItemCount() - 2) {
             return VIEW_TYPE_CART_FOOTER;
         }
-        if (position == cartAccessories.size()) {
-            return VIEW_TYPE_EMPTY_CART_FOOTER;
-        }
-        return VIEW_TYPE_CART;
+        return VIEW_TYPE_EMPTY_CART_FOOTER;
     }
 
     private void setTotal() {

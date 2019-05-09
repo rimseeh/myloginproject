@@ -36,8 +36,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.annotations.NotNull;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

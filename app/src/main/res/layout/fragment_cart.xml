@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="left"
-    android:background="@color/colorAccent"
+    android:background="@color/dayAccentColor"
     android:elevation="0dp"
     tools:context=".fragments.CartFragment">
 
@@ -24,8 +24,8 @@
 
         <ImageButton
             android:id="@+id/shopping_cart_back_image_button"
-            android:layout_width="@dimen/small_logo_width"
-            android:layout_height="@dimen/small_logo_height"
+            android:layout_width="@dimen/tiny_logo_width"
+            android:layout_height="@dimen/tiny_logo_height"
             android:layout_margin="20dp"
             android:layout_weight="0"
             android:background="@drawable/circle_view"
@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:background="@color/colorAccent"
+        android:background="@color/dayAccentColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shopping_cart_view_line">
 
@@ -85,7 +85,7 @@
         android:layout_height="1dp"
         android:layout_margin="10dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/dayPrimaryDarkColor"
         app:layout_constraintTop_toBottomOf="@+id/shopping_cart_header"
         tools:layout_editor_absoluteX="10dp" />
 
@@ -109,17 +109,17 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorPrimaryDark">
+            android:background="@color/dayPrimaryDarkColor">
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="3dp"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTint="@color/dayPrimaryDarkColor"
                 android:text="@string/checkout"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/dayPrimaryTextColor"
                 android:textStyle="bold"
 
                 />

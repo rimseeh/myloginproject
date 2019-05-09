@@ -1,5 +1,6 @@
 package com.example.designandloginproject.fragments;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -11,11 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.designandloginproject.network.ImageRequester;
 import com.example.designandloginproject.recyclerCard.AccessoryCardRecyclerViewAdapter;
 import com.example.designandloginproject.recyclerCard.AccessoryGridItemDecoration;
@@ -192,13 +197,20 @@ public class AccessoryGridFragment extends Fragment {
                                     }
                                 }
                             }
-                            NetworkImageView networkImageView=new NetworkImageView(MyApplication.getAppContext());
-                            networkImageView.setLayoutParams(new LinearLayout.LayoutParams(96,96));
-                            networkImageView.setBackgroundResource(R.drawable.circle_view);
-                            cartLinearLayout.addView(networkImageView);
-                            ImageRequester.getInstance().setImageFromUrl(networkImageView,cartAccessories.get(0).getUrl());
-                            Log.d(TAG, "onDataChange:"+cartAccessories.toString());
-
+                            for(Accessory cartAccessory: cartAccessories){
+                                ImageView imageView=new ImageView(MyApplication.getAppContext());
+                                imageView.setLayoutParams(new LinearLayout.LayoutParams(96,96));
+                                imageView.setPadding(10,0,0,0);
+                                cartLinearLayout.addView(imageView);
+                                Glide.with(MyApplication.getAppContext()).load(Uri.parse(cartAccessory.getUrl())).apply(RequestOptions.circleCropTransform()).into(imageView);
+                            }
+                            if(cartAccessories.size()==2){
+                                TextView textView = new TextView(MyApplication.getAppContext());
+                                textView.setPadding(10,0,0,0);
+                                textView.setText("...");
+                                textView.setTextAppearance(R.style.Widget_TextView_Text);
+                                cartLinearLayout.addView(textView);
+                            }
                         } else {
                             Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                         }
