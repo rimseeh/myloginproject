@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="AccentColor">#FEDBD0</color>
+    <!--<color name="AccentColor">#FEDBD0</color>-->
     <color name="dayAccentColor">#FEDBD0</color>
     <color name="dayPrimaryColor">#E0E0E0</color>
     <color name="dayPrimaryLightColor">#ffebde</color>
@@ -11,7 +11,7 @@
     <color name="dayPrimaryTextColor">#513335</color>
     <color name="daySecondaryTextColor">#442C2E</color>
     <color name="dayToolbarIconColor">@color/dayPrimaryTextColor</color>
-    <color name="dayLoginPageBackgroundColor">#FFFFFF</color>
+    <color name="dayMainPageBackgroundColor">#FFFFFF</color>
     <color name="dayControlActivatedColor">@color/dayPrimaryDarkColor</color>
     <color name="dayProductGridBackgroundColor">#FFFBFA</color>
     <color name="dayIconColor">#442B2D</color>
@@ -26,7 +26,7 @@
     <color name="nightPrimaryTextColor">#ffffff</color>
     <color name="nightSecondaryTextColor">#ffffff</color>
     <color name="nightToolbarIconColor">@color/dayPrimaryTextColor</color>
-    <color name="nightLoginPageBackgroundColor">#000000</color>
+    <color name="nightMainPageBackgroundColor">#000000</color>
     <color name="nightControlActivatedColor">@color/nightPrimaryLightColor</color>
     <color name="nightProductGridBackgroundColor">#000405</color>
     <color name="nightIconColor">#FBB8AC</color>

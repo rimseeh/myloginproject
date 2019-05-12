@@ -11,7 +11,7 @@
         <attr name="primaryTextColor" format="color"/>
         <attr name="secondaryTextColor" format="color"/>
         <attr name="toolbarIconColor" format="color"/>
-        <attr name="loginPageBackgroundColor" format="color"/>
+        <attr name="mainPageBackgroundColor" format="color"/>
         <attr name="controlActivatedColor" format="color"/>
         <attr name="productGridBackgroundColor" format="color"/>
         <attr name="iconColor" format="color"/>

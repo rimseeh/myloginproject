@@ -2,112 +2,199 @@
 
     <!-- Base application theme. -->
     <!-- Light/Day Mode theme -->
-    <style name="Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
-       <item name="colorAccent">@color/dayAccentColor</item>
+    <style name="dTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorAccent">@color/dayAccentColor</item>
+        <item name="accentColor">@color/dayAccentColor</item>
         <item name="primaryColor">@color/dayPrimaryColor</item>
-        <item name="primaryLightColor" >@color/dayPrimaryLightColor</item>
+        <item name="primaryLightColor">@color/dayPrimaryLightColor</item>
         <item name="primaryDarkColor">@color/dayPrimaryDarkColor</item>
-        <item name="secondaryColor" >@color/daySecondaryColor</item>
-        <item name="secondaryLightColor" >@color/daySecondaryLightColor</item>
-        <item name="secondaryDarkColor" >@color/daySecondaryDarkColor</item>
-        <item name="primaryTextColor" >@color/dayPrimaryTextColor</item>
+        <item name="secondaryColor">@color/daySecondaryColor</item>
+        <item name="secondaryLightColor">@color/daySecondaryLightColor</item>
+        <item name="secondaryDarkColor">@color/daySecondaryDarkColor</item>
+        <item name="primaryTextColor">@color/dayPrimaryTextColor</item>
         <item name="secondaryTextColor">@color/daySecondaryTextColor</item>
-        <item name="toolbarIconColor" >@color/dayToolbarIconColor</item>
-        <item name="loginPageBackgroundColor" >@color/dayLoginPageBackgroundColor</item>
-        <item name="controlActivatedColor" >@color/dayControlActivatedColor</item>
-        <item name="productGridBackgroundColor" >@color/dayProductGridBackgroundColor</item>
+        <item name="toolbarIconColor">@color/dayToolbarIconColor</item>
+        <item name="mainPageBackgroundColor">@color/dayMainPageBackgroundColor</item>
+        <item name="controlActivatedColor">@color/dayControlActivatedColor</item>
+        <item name="productGridBackgroundColor">@color/dayProductGridBackgroundColor</item>
         <item name="iconColor">@color/dayIconColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="colorPrimaryDark">@color/dayPrimaryDarkColor</item>
+
+
+        <item name="android:textColorHint">?attr/primaryTextColor</item>
+        <!-- TextInputLayout text color-->
+        <item name="colorControlActivated">?attr/secondaryTextColor</item>
+        <!-- EditText line color when EditText on-focus-->
+        <item name="colorControlHighlight">?attr/secondaryTextColor</item>
+        <!-- EditText line color when EditText  in un-focus-->
+        <item name="colorControlNormal">?attr/primaryTextColor</item>
     </style>
 
     <!-- Base application theme. -->
     <!-- Dark/Night  Mode theme -->
-    <style name="DarkTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="accentColor"> @color/nightAccentColor</item>
+    <style name="Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="accentColor">@color/nightAccentColor</item>
         <item name="primaryColor">@color/nightPrimaryColor</item>
-        <item name="primaryLightColor" >@color/nightPrimaryLightColor</item>
+        <item name="primaryLightColor">@color/nightPrimaryLightColor</item>
         <item name="primaryDarkColor">@color/nightPrimaryDarkColor</item>
-        <item name="secondaryColor" >@color/nightSecondaryColor</item>
-        <item name="secondaryLightColor" >@color/nightSecondaryLightColor</item>
-        <item name="secondaryDarkColor" >@color/nightSecondaryDarkColor</item>
-        <item name="primaryTextColor" >@color/nightPrimaryTextColor</item>
+        <item name="secondaryColor">@color/nightSecondaryColor</item>
+        <item name="secondaryLightColor">@color/nightSecondaryLightColor</item>
+        <item name="secondaryDarkColor">@color/nightSecondaryDarkColor</item>
+        <item name="primaryTextColor">@color/nightPrimaryTextColor</item>
         <item name="secondaryTextColor">@color/nightSecondaryTextColor</item>
-        <item name="toolbarIconColor" >@color/nightToolbarIconColor</item>
-        <item name="loginPageBackgroundColor" >@color/nightLoginPageBackgroundColor</item>
-        <item name="controlActivatedColor" >@color/nightControlActivatedColor</item>
-        <item name="productGridBackgroundColor" >@color/nightProductGridBackgroundColor</item>
+        <item name="toolbarIconColor">@color/nightToolbarIconColor</item>
+        <item name="mainPageBackgroundColor">@color/nightMainPageBackgroundColor</item>
+        <item name="controlActivatedColor">@color/nightControlActivatedColor</item>
+        <item name="productGridBackgroundColor">@color/nightProductGridBackgroundColor</item>
         <item name="iconColor">@color/nightIconColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:textColorPrimary">@color/nightPrimaryTextColor</item>
-        <item name="colorPrimaryDark">@color/nightPrimaryDarkColor</item>
+        <item name="colorPrimaryDark">@color/nightPrimaryTextColor</item>
+
+        <item name="colorPrimary">@color/nightPrimaryTextColor  </item>
+        <item name="colorAccent">@color/nightAccentColor</item>
+        <item name="android:textColorHint">?attr/primaryTextColor</item>
+        <!-- TextInputLayout text color-->
+        <item name="colorControlActivated">?attr/secondaryTextColor</item>
+        <!-- EditText line color when EditText on-focus-->
+        <item name="colorControlHighlight">?attr/secondaryTextColor</item>
+        <!-- EditText line color when EditText  in un-focus-->
+        <item name="colorControlNormal">?attr/primaryTextColor</item>
 
     </style>
 
+    <style name="TextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+    </style>
+    <!--for login reset pass and try again buttons-->
+    <style name="Widget.Button.Dark.BackGround" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?attr/secondaryTextColor</item>
+        <item name="backgroundTint">?attr/primaryDarkColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.Button</item>
+        <item name="android:stateListAnimator" tools:ignore="NewApi">
+            @animator/next_button_state_list_anim
+        </item>
+    </style>
+    <!--for sign up button-->
+    <style name="Widget.Button.Light.BackGround" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="backgroundTint">?attr/mainPageBackgroundColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.Button</item>
+        <item name="android:stateListAnimator" tools:ignore="NewApi">
+            @animator/next_button_state_list_anim
+        </item>
+    </style>
 
+    <!--for dropdown menu-->
+    <style name="Widget.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+    </style>
 
+    <!--login tool bar style-->
+    <style name="TextAppearance.Toolbar" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/size_headline_h6</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?attr/secondaryTextColor</item>
+    </style>
 
     <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
-
-        <item name="android:background">?attr/colorAccent</item>
-        <item name="android:theme">@style/Theme</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="android:background">?attr/accentColor</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="titleTextAppearance">@style/TextAppearance.Toolbar</item>
     </style>
 
-    <style name="TextAppearance.Toolbar" parent="TextAppearance.MaterialComponents.Button">
-        <item name="android:textSize">16sp</item>
+    <!--text input layout style-->
+    <style name="TextAppearance.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:background">?attr/mainPageBackgroundColor</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="android:textColorHint">?attr/primaryTextColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle2
+        </item>
     </style>
 
     <style name="Widget.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/TextAppearance.TextInputLayout.HintText</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingBottom">@dimen/small_padding</item>
     </style>
 
-    <style name="TextAppearance.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
-    <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">?attr/primaryTextColor</item>
-        <item name="backgroundTint">?attr/primaryDarkColor</item>
-        <item name="android:stateListAnimator" tools:ignore="NewApi">@animator/next_button_state_list_anim</item>
-    </style>
-
-    <style name="Widget.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-    <style name="Widget.TextView.Text" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-    </style>
-
-    <style name="TextAppearance.Title" parent="TextAppearance.MaterialComponents.Headline4">
+    <!--title text style-->
+    <style name="TextAppearance.Title4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
     </style>
 
-    <style name="Theme.Dark">
-        <item name="colorPrimaryDark">#27272F</item>
-        <item name="colorAccent">#33333D</item>
-        <item name="colorControlActivated">#FFCF44</item>
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+    <style name="TextAppearance.Title5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
     </style>
+
+    <style name="ThreeDotTextAppearance" parent="TextAppearance.Body1">
+        <item name="android:textColor">?attr/primaryTextColor</item>
+
+    </style>
+
+    <style name="TextAppearance.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <!--<item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>-->
+    </style>
+
+    <style name="TextAppearance.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">?attr/secondaryTextColor</item>
+        <!--<item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body2</item>-->
+    </style>
+
 
     <style name="Widget.Backdrop" parent="">
-        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:background">?attr/accentColor</item>
     </style>
 
-    <style name="error_appearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#f44336</item>
-        <item name="android:textSize">12sp</item>
+    <style name="Widget.TextView.error" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.error</item>
+    </style>
+
+    <style name="TextAppearance.error" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">?attr/colorError</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption</item>
     </style>
 
     <style name="DatePickerTheme" parent="@android:style/Theme.Holo.Light.Dialog.MinWidth">
-        <item name="android:textColor">@color/dayPrimaryTextColor</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="android:background">@null</item>
-        <item name="android:textColorPrimary">@color/dayPrimaryTextColor</item>
+        <item name="android:textColorPrimary">?attr/primaryTextColor</item>
     </style>
 
+    <!--<style name="Widget.TextView.Subtitle" parent="Widget.MaterialComponents.Button.TextButton">-->
+    <!--<item name="android:textAppearance">@style/TextAppearance.Subtitle</item>-->
+    <!--</style>-->
+    <style name="TextAppearance.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <!--<item name="android:textAppearance">TextAppearance.MaterialComponents.Subtitle1</item>-->
+    </style>
+
+
+    <!--<style name="Widget.TextView.Body" parent="Widget.MaterialComponents.Button.TextButton">-->
+    <!--<item name="android:textAppearance">@style/TextAppearance.Body</item>-->
+    <!--</style>-->
+    <style name="TextAppearance.Body" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <!--<item name="android:textAppearance">TextAppearance.MaterialComponents.Subtitle2</item>-->
+        <item name="android:textColor">?attr/secondaryTextColor</item>
+    </style>
+
+    <style name="Layout.BackGround.MainColor" parent="">
+        <item name="android:background">?attr/mainPageBackgroundColor</item>
+    </style>
+
+    <style name="Layout.BackGround.AccentColor" parent="">
+        <item name="android:background">?attr/accentColor</item>
+    </style>
+
+    <style name="Layout.BackGround.DarkColor" parent="">
+        <item name="android:background">?attr/primaryDarkColor</item>
+    </style>
 </resources>

@@ -2,31 +2,30 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.BackGround.AccentColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="left"
-    android:background="@color/dayAccentColor"
-    android:elevation="0dp"
+    android:elevation="@dimen/back_layer"
     tools:context=".fragments.CartFragment">
 
     <LinearLayout
         android:id="@+id/shopping_cart_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
+        android:layout_margin="@dimen/medium_margin"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="RtlHardcoded">
 
         <ImageButton
             android:id="@+id/shopping_cart_back_image_button"
             android:layout_width="@dimen/tiny_logo_width"
             android:layout_height="@dimen/tiny_logo_height"
-            android:layout_margin="20dp"
+            android:layout_gravity="left|center"
             android:layout_weight="0"
             android:background="@drawable/circle_view"
             android:src="@drawable/ic_back" />
@@ -35,10 +34,11 @@
             android:id="@+id/shopping_cart_accessory_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="@dimen/medium_margin"
             android:layout_weight="1"
             android:text="@string/cart"
-            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textAppearance="@style/TextAppearance.Subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,10 +46,11 @@
             android:id="@+id/shopping_cart_accessory_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="@dimen/medium_margin"
             android:layout_weight="10"
             android:text="@string/items"
-            android:textAppearance="?attr/textAppearanceBody2" />
+            android:textAppearance="@style/TextAppearance.Body" />
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -57,18 +58,20 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:background="@color/dayAccentColor"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shopping_cart_view_line">
+        app:layout_constraintTop_toBottomOf="@+id/shopping_cart_view_line"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="?attr/secondaryDarkColor">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/shopping_cart_accessory_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:paddingStart="@dimen/product_grid_spacing"
-            android:paddingEnd="@dimen/product_grid_spacing">
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:paddingStart="@dimen/accessory_grid_spacing"
+            android:paddingEnd="@dimen/accessory_grid_spacing">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/shopping_cart_recycler_view"
@@ -81,11 +84,11 @@
 
     <View
         android:id="@+id/shopping_cart_view_line"
+        style="@style/Layout.BackGround.DarkColor"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/dayPrimaryDarkColor"
+        android:layout_margin="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/small_margin"
         app:layout_constraintTop_toBottomOf="@+id/shopping_cart_header"
         tools:layout_editor_absoluteX="10dp" />
 
@@ -94,10 +97,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/button_margin"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:elevation="1dp"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:elevation="@dimen/middle_layer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,19 +112,18 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dayPrimaryDarkColor">
+            style="@style/Layout.BackGround.DarkColor">
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="3dp"
-                android:backgroundTint="@color/dayPrimaryDarkColor"
+                android:backgroundTint="?attr/primaryDarkColor"
                 android:text="@string/checkout"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                android:textColor="@color/dayPrimaryTextColor"
+                android:textAppearance="@style/TextAppearance.Title5"
+                android:textColor="?attr/primaryTextColor"
                 android:textStyle="bold"
-
                 />
         </FrameLayout>
 

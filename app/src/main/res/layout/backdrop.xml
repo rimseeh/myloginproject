@@ -1,70 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Layout.BackGround.AccentColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
+    >
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/featured_label" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/apartment_label" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/accessories_label" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/shoes_label" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/tops_label" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/bottoms_label" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/dresses_label" />
 
     <View
         android:layout_width="56dp"
         android:layout_height="1dp"
+        android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:background="@color/dayPrimaryTextColor" />
+        android:background="?attr/primaryTextColor" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/account_label" />
+
     <View
         android:layout_width="56dp"
         android:layout_height="1dp"
+        android:layout_gravity="center"
         android:layout_margin="16dp"
-        android:background="@color/dayPrimaryTextColor" />
+        android:background="?attr/primaryTextColor"  />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/backdrop_logout_button"
         style="@style/Widget.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/logout" />
-
-</merge>
+</LinearLayout>

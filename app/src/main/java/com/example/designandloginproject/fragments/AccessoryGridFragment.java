@@ -1,7 +1,6 @@
 package com.example.designandloginproject.fragments;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -17,11 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.NetworkImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.designandloginproject.network.ImageRequester;
 import com.example.designandloginproject.recyclerCard.AccessoryCardRecyclerViewAdapter;
 import com.example.designandloginproject.recyclerCard.AccessoryGridItemDecoration;
 import com.example.designandloginproject.NavigationHost;
@@ -49,7 +45,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -108,8 +103,8 @@ public class AccessoryGridFragment extends Fragment {
                 }
                 Log.d(TAG, "onComplete: " + accessories.toString());
                 adapter = new AccessoryCardRecyclerViewAdapter(accessories,getActivity());
-                int largePadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing);
-                int smallPadding = getResources().getDimensionPixelSize(R.dimen.product_grid_spacing_small);
+                int largePadding = getResources().getDimensionPixelSize(R.dimen.accessory_grid_spacing);
+                int smallPadding = getResources().getDimensionPixelSize(R.dimen.accessory_grid_spacing_small);
                 recyclerView.addItemDecoration(new AccessoryGridItemDecoration(largePadding, smallPadding));
                 Log.d(TAG, "onCreateView: " + accessories);
                 recyclerView.setAdapter(adapter);
@@ -204,13 +199,13 @@ public class AccessoryGridFragment extends Fragment {
                                 cartLinearLayout.addView(imageView);
                                 Glide.with(MyApplication.getAppContext()).load(Uri.parse(cartAccessory.getUrl())).apply(RequestOptions.circleCropTransform()).into(imageView);
                             }
-                            if(cartAccessories.size()==2){
-                                TextView textView = new TextView(MyApplication.getAppContext());
-                                textView.setPadding(10,0,0,0);
-                                textView.setText("...");
-                                textView.setTextAppearance(R.style.Widget_TextView_Text);
-                                cartLinearLayout.addView(textView);
-                            }
+//                            if(cartAccessories.size()==2){
+//                                TextView textView = new TextView(MyApplication.getAppContext());
+//                                textView.setPadding(10,0,0,0);
+//                                textView.setText("...");
+//                                textView.setTextAppearance(R.style.ThreeDotTextAppearance);
+//                                cartLinearLayout.addView(textView);
+//                            }
                         } else {
                             Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                         }

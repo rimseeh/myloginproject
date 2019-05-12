@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Layout.BackGround.AccentColor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@color/dayAccentColor"
     android:orientation="vertical"
     app:cardPreventCornerOverlap="true">
 
@@ -15,7 +15,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/dayPrimaryDarkColor" />
+        android:background="?attr/primaryDarkColor" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,62 +24,67 @@
 
         <ImageButton
             android:id="@+id/remove_image_button"
+            style="@style/Layout.BackGround.AccentColor"
             android:layout_width="@dimen/small_logo_width"
             android:layout_height="@dimen/small_logo_height"
             android:layout_gravity="center"
             android:layout_margin="15dp"
-            android:background="@color/dayAccentColor"
             android:src="@drawable/ic_remove_circle"
             tools:ignore="ContentDescription" />
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/accessory_cart_network_image_view"
+            style="@style/Layout.BackGround.AccentColor"
             android:layout_width="@dimen/normal_image_view_width"
             android:layout_height="@dimen/normal_image_view_height"
             android:layout_margin="6dp"
             tools:ignore="ContentDescription" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/Layout.BackGround.AccentColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/accessory_cart_money_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
                 android:text="@string/money"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:textAppearance="@style/TextAppearance.Body"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.94"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.18" />
+                app:layout_constraintVertical_bias="0.1" />
 
             <TextView
                 android:id="@+id/accessory_cart_title_text_view"
-                android:layout_width="141dp"
+                android:layout_width="@dimen/constant_width"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="8dp"
                 android:text="@string/product_title"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textAppearance="@style/TextAppearance.Subtitle"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
             <TextView
                 android:id="@+id/accessory_cart_description_text_view"
-                android:layout_width="142dp"
+                android:layout_width="@dimen/constant_width"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/tiny_padding"
                 android:text="@string/product_description"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:textAppearance="@style/TextAppearance.Body"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/accessory_cart_title_text_view" />
 

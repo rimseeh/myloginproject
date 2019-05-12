@@ -63,7 +63,7 @@ public class NavigationIconClickListener implements View.OnClickListener {
         updateIcon(view);
 
         final int translateY = height -
-                context.getResources().getDimensionPixelSize(R.dimen.product_grid_reveal_height);
+                context.getResources().getDimensionPixelSize(R.dimen.accessory_grid_reveal_height);
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(sheet, "translationY", backdropShown ? translateY : 0);
         animator.setDuration(500);
