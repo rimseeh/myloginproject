@@ -113,7 +113,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4">
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkBox_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -209,6 +209,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:paddingTop="15dp"
+        android:elevation="@dimen/front_layer"
         android:paddingBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -218,6 +219,7 @@
         android:id="@+id/sign_in_button_google"
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:elevation="@dimen/front_layer"
         android:layout_marginStart="6dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="6dp"

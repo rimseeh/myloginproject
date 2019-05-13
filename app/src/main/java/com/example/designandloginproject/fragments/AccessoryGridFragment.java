@@ -69,6 +69,9 @@ public class AccessoryGridFragment extends Fragment {
 
     @BindView(R.id.bottomCartSheet)
     CutCornerView cutCornerViewCart;
+
+    @BindView(R.id.backdrop_settings_button)
+    MaterialButton settingsMaterialButton;
     static ArrayList<Accessory> accessories = new ArrayList<>();
     private AccessoryCardRecyclerViewAdapter adapter;
     View view;
@@ -122,7 +125,7 @@ public class AccessoryGridFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_button})
+    @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_button,R.id.backdrop_settings_button})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.backdrop_logout_button:
@@ -134,6 +137,10 @@ public class AccessoryGridFragment extends Fragment {
             case R.id.shopping_cart_image_button:
                 ((NavigationHost) Objects.requireNonNull(getActivity())).navigateToWithAnimation(new CartFragment(), true,R.anim.enter_from_buttom_right,R.anim.fade_out,R.anim.fade_in,R.anim.exit_to_buttom_right); // Navigate to the grid Fragment
                 break;
+            case R.id.backdrop_settings_button:
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new SettingsFragment(), true); // Navigate to the grid Fragment
+                break;
+
         }
 
     }
@@ -160,8 +167,8 @@ public class AccessoryGridFragment extends Fragment {
                 getContext(),
                 view.findViewById(R.id.accessory_swipe_refresh_layout),
                 new AccelerateDecelerateInterpolator(),
-                getContext().getResources().getDrawable(R.drawable.branded_menu), // Menu open icon
-                getContext().getResources().getDrawable(R.drawable.close_menu)) // Menu close icon
+                Objects.requireNonNull(getContext()).getDrawable(R.drawable.branded_menu), // Menu open icon
+                getContext().getDrawable(R.drawable.close_menu)) // Menu close icon
         );
     }
 

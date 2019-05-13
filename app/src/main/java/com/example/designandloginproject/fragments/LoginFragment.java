@@ -32,6 +32,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +66,7 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.textView_forget_password)
     TextView textViewForgetPass;
     @BindView(R.id.checkBox_login)
-    CheckBox checkBox;
+    MaterialCheckBox checkBox;
 
     @BindView(R.id.email_edit_text_login)
     TextInputEditText emailEditText;
@@ -83,6 +85,8 @@ public class LoginFragment extends Fragment {
 
     @BindView(R.id.login_button)
     LoginButton facebookLoginButton;
+
+
 
     private FirebaseUser firebaseUser;
     private CallbackManager mCallbackManager = null;

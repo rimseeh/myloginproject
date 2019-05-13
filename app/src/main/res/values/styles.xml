@@ -2,7 +2,7 @@
 
     <!-- Base application theme. -->
     <!-- Light/Day Mode theme -->
-    <style name="dTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">@color/dayAccentColor</item>
         <item name="accentColor">@color/dayAccentColor</item>
         <item name="primaryColor">@color/dayPrimaryColor</item>
@@ -20,8 +20,6 @@
         <item name="iconColor">@color/dayIconColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="colorPrimaryDark">@color/dayPrimaryDarkColor</item>
-
-
         <item name="android:textColorHint">?attr/primaryTextColor</item>
         <!-- TextInputLayout text color-->
         <item name="colorControlActivated">?attr/secondaryTextColor</item>
@@ -29,11 +27,13 @@
         <item name="colorControlHighlight">?attr/secondaryTextColor</item>
         <!-- EditText line color when EditText  in un-focus-->
         <item name="colorControlNormal">?attr/primaryTextColor</item>
+
+        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>
     </style>
 
     <!-- Base application theme. -->
     <!-- Dark/Night  Mode theme -->
-    <style name="Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="DarkTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="accentColor">@color/nightAccentColor</item>
         <item name="primaryColor">@color/nightPrimaryColor</item>
         <item name="primaryLightColor">@color/nightPrimaryLightColor</item>
@@ -62,8 +62,15 @@
         <!-- EditText line color when EditText  in un-focus-->
         <item name="colorControlNormal">?attr/primaryTextColor</item>
 
+        <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>
     </style>
 
+
+    <style name="WindowAnimationStyle" >
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+
+    </style>
     <style name="TextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textStyle">bold</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
@@ -82,15 +89,15 @@
         <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="backgroundTint">?attr/mainPageBackgroundColor</item>
         <item name="android:textAppearance">@style/TextAppearance.Button</item>
-        <item name="android:stateListAnimator" tools:ignore="NewApi">
-            @animator/next_button_state_list_anim
-        </item>
+        <item name="android:stateListAnimator" tools:ignore="NewApi">@animator/next_button_state_list_anim</item>
     </style>
 
     <!--for dropdown menu-->
     <style name="Widget.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
+        <item name="backgroundTint">?attr/accentColor</item>
+        <item name="android:colorPressedHighlight">?attr/secondaryDarkColor</item>
     </style>
 
     <!--login tool bar style-->
@@ -165,7 +172,7 @@
 
     <style name="DatePickerTheme" parent="@android:style/Theme.Holo.Light.Dialog.MinWidth">
         <item name="android:textColor">?attr/primaryTextColor</item>
-        <item name="android:background">@null</item>
+        <item name="android:background">?attr/mainPageBackgroundColor</item>
         <item name="android:textColorPrimary">?attr/primaryTextColor</item>
     </style>
 
@@ -196,5 +203,9 @@
 
     <style name="Layout.BackGround.DarkColor" parent="">
         <item name="android:background">?attr/primaryDarkColor</item>
+    </style>
+    <style name="Widget.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+
+
     </style>
 </resources>

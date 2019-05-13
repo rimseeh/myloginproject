@@ -2,7 +2,7 @@
 <resources>
     <!--<color name="AccentColor">#FEDBD0</color>-->
     <color name="dayAccentColor">#FEDBD0</color>
-    <color name="dayPrimaryColor">#E0E0E0</color>
+    <color name="dayPrimaryColor">#fbb8ac</color>
     <color name="dayPrimaryLightColor">#ffebde</color>
     <color name="dayPrimaryDarkColor">#FBB8AC</color>
     <color name="daySecondaryColor">#ef9a9a</color>
@@ -17,16 +17,16 @@
     <color name="dayIconColor">#442B2D</color>
 
     <color name="nightAccentColor">#302826</color>
-    <color name="nightPrimaryColor">#281b18</color>
-    <color name="nightPrimaryLightColor">#51423e</color>
-    <color name="nightPrimaryDarkColor">#000000</color>
-    <color name="nightSecondaryColor">#4c2f2f</color>
-    <color name="nightSecondaryLightColor">#795858</color>
-    <color name="nightSecondaryDarkColor">#240705</color>
+    <color name="nightPrimaryColor">#382421</color>
+    <color name="nightPrimaryLightColor">#634c48</color>
+    <color name="nightPrimaryDarkColor">#150000</color>
+    <color name="nightSecondaryColor">#603b3b</color>
+    <color name="nightSecondaryLightColor">#8f6665</color>
+    <color name="nightSecondaryDarkColor">#341415</color>
     <color name="nightPrimaryTextColor">#ffffff</color>
     <color name="nightSecondaryTextColor">#ffffff</color>
     <color name="nightToolbarIconColor">@color/dayPrimaryTextColor</color>
-    <color name="nightMainPageBackgroundColor">#000000</color>
+    <color name="nightMainPageBackgroundColor">#202124</color>
     <color name="nightControlActivatedColor">@color/nightPrimaryLightColor</color>
     <color name="nightProductGridBackgroundColor">#000405</color>
     <color name="nightIconColor">#FBB8AC</color>

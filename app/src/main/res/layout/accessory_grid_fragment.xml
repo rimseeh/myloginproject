@@ -45,33 +45,32 @@
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        style="@style/Layout.BackGround.MainColor"
         android:id="@+id/accessory_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:backgroundTint="?attr/mainPageBackgroundColor"
         android:elevation="@dimen/middle_layer"
+        android:paddingLeft="@dimen/large_padding"
+        android:paddingTop="@dimen/large_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:paddingTop="@dimen/large_padding"
-        android:paddingLeft="@dimen/large_padding"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
 
         <androidx.core.widget.NestedScrollView
-            style="@style/Layout.BackGround.MainColor"
             android:id="@+id/product_grid"
+            style="@style/Layout.BackGround.MainColor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/tiny_padding"
             android:paddingStart="@dimen/large_padding"
+            android:paddingTop="@dimen/tiny_padding"
             android:paddingEnd="@dimen/large_padding"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:ignore="PrivateResource">
 
             <androidx.recyclerview.widget.RecyclerView
-                style="@style/Layout.BackGround.MainColor"
                 android:id="@+id/recycler_view"
+                style="@style/Layout.BackGround.MainColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

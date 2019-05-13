@@ -71,5 +71,6 @@
     <string name="money">Money</string>
     <string name="total">Total</string>
     <string name="checkout">PROCEED TO CHECKOUT</string>
+    <string name="settings">settings</string>
 
 </resources>
