@@ -19,7 +19,7 @@
         <item name="productGridBackgroundColor">@color/dayProductGridBackgroundColor</item>
         <item name="iconColor">@color/dayIconColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="colorPrimaryDark">@color/dayPrimaryDarkColor</item>
+        <item name="colorPrimaryDark">@color/topBarColor</item>
         <item name="android:textColorHint">?attr/primaryTextColor</item>
         <!-- TextInputLayout text color-->
         <item name="colorControlActivated">?attr/secondaryTextColor</item>
@@ -27,6 +27,7 @@
         <item name="colorControlHighlight">?attr/secondaryTextColor</item>
         <!-- EditText line color when EditText  in un-focus-->
         <item name="colorControlNormal">?attr/primaryTextColor</item>
+        <item name="android:navigationBarColor">@color/navBarColor</item>
 
         <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>
     </style>
@@ -50,7 +51,7 @@
         <item name="iconColor">@color/nightIconColor</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:textColorPrimary">@color/nightPrimaryTextColor</item>
-        <item name="colorPrimaryDark">@color/nightPrimaryTextColor</item>
+        <item name="colorPrimaryDark">@color/topBarColor</item>
 
         <item name="colorPrimary">@color/nightPrimaryTextColor  </item>
         <item name="colorAccent">@color/nightAccentColor</item>
@@ -61,7 +62,7 @@
         <item name="colorControlHighlight">?attr/secondaryTextColor</item>
         <!-- EditText line color when EditText  in un-focus-->
         <item name="colorControlNormal">?attr/primaryTextColor</item>
-
+        <item name="android:navigationBarColor">@color/navBarColor</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationStyle</item>
     </style>
 
@@ -96,8 +97,7 @@
     <style name="Widget.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Button</item>
-        <item name="backgroundTint">?attr/accentColor</item>
-        <item name="android:colorPressedHighlight">?attr/secondaryDarkColor</item>
+        <item name="colorControlHighlight">?attr/secondaryDarkColor</item>
     </style>
 
     <!--login tool bar style-->

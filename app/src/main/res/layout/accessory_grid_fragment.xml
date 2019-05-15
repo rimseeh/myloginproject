@@ -2,18 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/accessory_constraint_layout"
+    style="@style/Layout.BackGround.MainColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/Layout.BackGround.MainColor"
     tools:context=".fragments.AccessoryGridFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:elevation="@dimen/back_layer"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:elevation="@dimen/back_layer"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,17 +83,18 @@
         android:id="@+id/bottomCartSheet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/front_layer"
         android:layout_marginBottom="@dimen/margin_small"
+        android:elevation="@dimen/front_layer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:shape_cutCorner_topLeftSize="@dimen/large_corner_cut">
 
         <LinearLayout
-            style="@style/Layout.BackGround.AccentColor"
             android:id="@+id/cart_linear_layout"
+            style="@style/Layout.BackGround.AccentColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/large_padding"
             android:paddingTop="@dimen/medium_padding"
@@ -100,8 +102,8 @@
             android:paddingBottom="@dimen/medium_padding">
 
             <ImageButton
-                style="@style/Layout.BackGround.AccentColor"
                 android:id="@+id/shopping_cart_image_button"
+                style="@style/Layout.BackGround.AccentColor"
                 android:layout_width="@dimen/small_logo_width"
                 android:layout_height="@dimen/small_logo_height"
                 app:srcCompat="@drawable/ic_shopping_cart"
@@ -109,5 +111,15 @@
         </LinearLayout>
 
     </com.github.florent37.shapeofview.shapes.CutCornerView>
+
+    <ImageView
+        android:id="@+id/img_cpy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/front_layer"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

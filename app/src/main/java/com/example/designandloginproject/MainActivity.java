@@ -19,6 +19,7 @@ import com.example.designandloginproject.fragments.AccessoryGridFragment;
 import com.example.designandloginproject.fragments.LoginFragment;
 import com.example.designandloginproject.fragments.SettingsFragment;
 import com.example.designandloginproject.network.ConnectivityReceiver;
+import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
 import com.google.firebase.auth.FirebaseAuth;
 //import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -45,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        MySharedPreferences mySharedPreferences=MySharedPreferences.getInstance(this);
+//        AppCompatDelegate.setDefaultNightMode(mySharedPreferences.readInt("Mode",AppCompatDelegate.MODE_NIGHT_NO));
+        if (mySharedPreferences.readInt("Mode",AppCompatDelegate.MODE_NIGHT_NO)==AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme);
         } else {
             setTheme(R.style.Theme);
@@ -55,18 +58,18 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         MyApplication myApplication = MyApplication.getInstance();
         mNetworkReceiver = new ConnectivityReceiver();
         registerNetworkBroadcast();
-        Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getBoolean("settingsFragment")) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container,new AccessoryGridFragment())
-                    .commit();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, new SettingsFragment())
-                    .addToBackStack(null)
-                    .commit();
-        } else {
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null && extras.getBoolean("settingsFragment")) {
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .add(R.id.container,new AccessoryGridFragment())
+//                    .commit();
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.container, new SettingsFragment())
+//                    .addToBackStack(null)
+//                    .commit();
+//        } else {
 //        printKeyHash();
 //        ArrayList<Accessory> accessories = (ArrayList<Accessory>) Accessory.initAccessoryEntryList(getResources());
 //        Log.d(TAG, "onCreate: "+accessories.toString());
@@ -77,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
 //                    .addOnSuccessListener(documentReference -> Log.d(TAG, "onCreate: "+accessory.toString()))
 //                    .addOnFailureListener(e -> Toast.makeText(MyApplication.getAppContext(), "model failed to be added", Toast.LENGTH_SHORT).show());
 //        }
-
-
             if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
                         .add(R.id.container, new LoginFragment())
                         .commit();
             }
-        }
+//        }
     }
 
 //    private void printKeyHash() {
@@ -152,5 +153,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        unregisterNetworkChanges();
+        super.onDestroy();
+    }
 }

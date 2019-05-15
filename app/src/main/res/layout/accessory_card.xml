@@ -1,46 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/accessory_card_view"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="@dimen/front_layer"
     android:layout_margin="@dimen/medium_margin"
     app:cardPreventCornerOverlap="true">
-
-    <LinearLayout
-        style="@style/Layout.BackGround.AccentColor"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/product_image"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/add_to_cart_image_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/primaryDarkColor"
-            android:scaleType="centerCrop" />
-
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:elevation="@dimen/front_layer"
+            android:src="@drawable/ic_add_shopping_cart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <LinearLayout
+            style="@style/Layout.BackGround.AccentColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/large_padding">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/accessory_cart_title"
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/add_to_cart"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/product_title"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Subtitle" />
+                android:background="?attr/primaryDarkColor"
+                android:scaleType="centerCrop" />
 
-            <TextView
-                android:id="@+id/accessory_cart_description"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/product_description"
-                android:textAlignment="center"
-                android:textAppearance="@style/TextAppearance.Body" />
+                android:orientation="vertical"
+                android:padding="@dimen/large_padding">
+
+                <TextView
+                    android:id="@+id/accessory_cart_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_title"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Subtitle" />
+
+                <TextView
+                    android:id="@+id/accessory_cart_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/product_description"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.Body" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

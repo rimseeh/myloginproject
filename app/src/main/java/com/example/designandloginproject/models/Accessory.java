@@ -28,9 +28,11 @@ public class Accessory {
     private String price;
     private String url;
     private Uri dynamicUrl;
+    private boolean addedToCart=false;
 
 
-    public Accessory(String title, String description, String price, String url,String dynamicUrl) {
+
+    public Accessory(String title, String description, String price, String url, String dynamicUrl) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -90,6 +92,14 @@ public class Accessory {
         this.dynamicUrl = dynamicUrl;
     }
 
+    public boolean isAddedToCart() {
+        return addedToCart;
+    }
+
+    public void setAddedToCart(boolean addedToCart) {
+        this.addedToCart = addedToCart;
+    }
+
     @Override
     public String toString() {
         return "Accessory{" +
@@ -99,6 +109,7 @@ public class Accessory {
                 ", price='" + price + '\'' +
                 ", url='" + url + '\'' +
                 ", dynamicUrl=" + dynamicUrl +
+                ", addedToCart=" + addedToCart +
                 '}';
     }
 

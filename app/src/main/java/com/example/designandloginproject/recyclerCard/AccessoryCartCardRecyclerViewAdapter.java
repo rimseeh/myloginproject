@@ -11,6 +11,9 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.example.designandloginproject.R;
 import com.example.designandloginproject.models.Accessory;
 import com.example.designandloginproject.network.ImageRequester;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -59,10 +62,7 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
             holder.priceTextView.setText(accessory.getPrice() + "$");
             cartImageRequester.setImageFromUrl(holder.networkImageView, accessory.getUrl());
             holder.removeImageButton.setOnClickListener(v -> {
-                holder.removeImageButton.setRotation(90f);
-                cartAccessories.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, cartAccessories.size() + 2);
+                removeFromDataBase(accessory, holder, position);
             });
         }
         if (viewHolder instanceof AccessoryFooterCartCardViewHolder) {
@@ -73,6 +73,18 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         }
     }
 
+    private void removeFromDataBase(Accessory accessory, AccessoryCartCardViewHolder holder, int position) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("cart/" + mAuth.getUid());
+        databaseReference.child(accessory.getId()).removeValue().addOnSuccessListener(task -> {
+            holder.removeImageButton.setRotation(90f);
+            cartAccessories.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, cartAccessories.size() + 2);
+        });
+    }
+
     @Override
     public int getItemCount() {
         return cartAccessories.size() + 2;
@@ -80,9 +92,9 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     @Override
     public int getItemViewType(int position) {
-        if(position<cartAccessories.size()){
+        if (position < cartAccessories.size()) {
             return VIEW_TYPE_CART;
-        }else if (position == getItemCount() - 2) {
+        } else if (position == getItemCount() - 2) {
             return VIEW_TYPE_CART_FOOTER;
         }
         return VIEW_TYPE_EMPTY_CART_FOOTER;

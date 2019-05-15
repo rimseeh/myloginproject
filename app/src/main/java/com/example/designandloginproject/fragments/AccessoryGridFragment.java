@@ -1,23 +1,29 @@
 package com.example.designandloginproject.fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.designandloginproject.animation.CartChangeListener;
 import com.example.designandloginproject.recyclerCard.AccessoryCardRecyclerViewAdapter;
 import com.example.designandloginproject.recyclerCard.AccessoryGridItemDecoration;
 import com.example.designandloginproject.NavigationHost;
@@ -45,16 +51,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class AccessoryGridFragment extends Fragment {
+public class AccessoryGridFragment extends Fragment implements CartChangeListener {
     private static final String TAG = "AccessoryGridFragment";
 
     @BindView(R.id.accessory_swipe_refresh_layout)
@@ -72,60 +80,73 @@ public class AccessoryGridFragment extends Fragment {
 
     @BindView(R.id.backdrop_settings_button)
     MaterialButton settingsMaterialButton;
+
+    @BindView(R.id.img_cpy)
+    ImageView mDummyImgView;
+
     static ArrayList<Accessory> accessories = new ArrayList<>();
     private AccessoryCardRecyclerViewAdapter adapter;
     View view;
-    FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    @BindView(R.id.accessory_constraint_layout)
+    ConstraintLayout constraintLayout;
+
+    int actionbarheight;
+    ArrayList<String> cartKeys = new ArrayList<String>();
+
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment with the ProductGrid theme
         view = inflater.inflate(R.layout.accessory_grid_fragment, container, false);
+
         ButterKnife.bind(this, view);
         // Set up the toolbar
         setUpToolbar(view);
         // Set up the RecyclerView
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1, RecyclerView.VERTICAL, false));
 
         view.findViewById(R.id.accessory_swipe_refresh_layout).setBackground(getContext().getDrawable(R.drawable.accessory_grid_background_shape));
 
         swipeRefreshLayout.setRefreshing(true);
-        Query query = FirebaseFirestore.getInstance().collection("accessory_images").limit(4);
+        Query query = FirebaseFirestore.getInstance().collection("accessory_images").limit(5);
         query.get().addOnCompleteListener(task -> {
             swipeRefreshLayout.setRefreshing(false);
             if (task.isSuccessful()) {
                 accessories = new ArrayList<>();
                 for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                     Accessory accessory = document.toObject(Accessory.class);
+                    accessory.setId(document.getId());
                     assert accessory != null;
                     accessory.setId(document.getId());
                     accessories.add(accessory);
                 }
-                Log.d(TAG, "onComplete: " + accessories.toString());
-                adapter = new AccessoryCardRecyclerViewAdapter(accessories,getActivity());
                 int largePadding = getResources().getDimensionPixelSize(R.dimen.accessory_grid_spacing);
                 int smallPadding = getResources().getDimensionPixelSize(R.dimen.accessory_grid_spacing_small);
                 recyclerView.addItemDecoration(new AccessoryGridItemDecoration(largePadding, smallPadding));
-                Log.d(TAG, "onCreateView: " + accessories);
-                recyclerView.setAdapter(adapter);
+                getCartAccessoriesIds();
 //                lastVisible = task.getResult().getDocuments().get(task.getResult().size() - 1);
             } else {
                 Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        setCartKeysAndCartAccessories();
-
-
-
+//        setCartKeysAndCartAccessories();
 
         swipeRefreshLayout.setOnRefreshListener(() -> swipeRefreshLayout.setRefreshing(false));
+
+        TypedValue tv = new TypedValue();
+        if (getContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionbarheight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
+
         return view;
     }
 
-    @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_button,R.id.backdrop_settings_button})
+    @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_button, R.id.backdrop_settings_button})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.backdrop_logout_button:
@@ -135,7 +156,7 @@ public class AccessoryGridFragment extends Fragment {
                 ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new LoginFragment(), false); // Navigate to the grid Fragment
                 break;
             case R.id.shopping_cart_image_button:
-                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateToWithAnimation(new CartFragment(), true,R.anim.enter_from_buttom_right,R.anim.fade_out,R.anim.fade_in,R.anim.exit_to_buttom_right); // Navigate to the grid Fragment
+                ((NavigationHost) Objects.requireNonNull(getActivity())).navigateToWithAnimation(new CartFragment(), true, R.anim.enter_from_buttom_right, R.anim.fade_out, R.anim.fade_in, R.anim.exit_to_buttom_right); // Navigate to the grid Fragment
                 break;
             case R.id.backdrop_settings_button:
                 ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new SettingsFragment(), true); // Navigate to the grid Fragment
@@ -172,51 +193,69 @@ public class AccessoryGridFragment extends Fragment {
         );
     }
 
+    @Override
+    public void onCartChange(String menuId, int count, int price, View cardv, int[] position) {
+        Animation shake;
+        shake = AnimationUtils.loadAnimation(MyApplication.getAppContext(), R.anim.shake);
+        cartImageView.startAnimation(shake);
 
-    private void setCartKeysAndCartAccessories() {
-        ArrayList<String> cartKeys =new ArrayList<String>();
-        FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference= firebaseDatabase.getReference("cart/"+mAuth.getUid());
-        ArrayList<Accessory> cartAccessories = new ArrayList<>();
-        Query query = FirebaseFirestore.getInstance().collection("accessory_images");
+        if (cardv != null) {
+            Bitmap b = MyApplication.getInstance().loadBitmapFromView(cardv, cardv.getWidth(), cardv.getHeight());
+            animateView(b, position);
+        }
 
+    }
+
+    private void animateView(Bitmap b, int[] position) {
+        mDummyImgView.setImageBitmap(b);
+        int u[] = new int[2];
+        cartImageView.getLocationInWindow(u);
+        mDummyImgView.setVisibility(View.VISIBLE);
+        AnimatorSet animSetXY = new AnimatorSet();
+        Log.e("Utuxe", "=" + u[0]);
+        Log.e("Utuye", "=" + u[1]);
+        ObjectAnimator y = ObjectAnimator.ofFloat(mDummyImgView, "translationY", position[1], u[1]);
+        ObjectAnimator x = ObjectAnimator.ofFloat(mDummyImgView, "translationX", position[0], u[0]);
+        ObjectAnimator sy = ObjectAnimator.ofFloat(mDummyImgView, "scaleY", 0.8f, 0.0f);
+        ObjectAnimator sx = ObjectAnimator.ofFloat(mDummyImgView, "scaleX", 0.8f, 0.0f);
+        animSetXY.playTogether(x, y, sx, sy);
+        animSetXY.setDuration(650);
+        animSetXY.start();
+    }
+
+    void getCartAccessoriesIds() {
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference("cart/" + mAuth.getUid());
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         cartKeys.add(snapshot.getKey());
                     }
-                    Log.d(TAG, "onDataChange: "+cartKeys.toString());
-                    query.get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                                Log.d(TAG, "onDataChange: "+document.getId());
-                                if(cartKeys.contains(document.getId())){
-                                    cartAccessories.add(document.toObject(Accessory.class));
-                                    if(cartAccessories.size()==2){
-                                        break;
-                                    }
-                                }
-                            }
-                            for(Accessory cartAccessory: cartAccessories){
-                                ImageView imageView=new ImageView(MyApplication.getAppContext());
-                                imageView.setLayoutParams(new LinearLayout.LayoutParams(96,96));
-                                imageView.setPadding(10,0,0,0);
-                                cartLinearLayout.addView(imageView);
-                                Glide.with(MyApplication.getAppContext()).load(Uri.parse(cartAccessory.getUrl())).apply(RequestOptions.circleCropTransform()).into(imageView);
-                            }
-//                            if(cartAccessories.size()==2){
-//                                TextView textView = new TextView(MyApplication.getAppContext());
-//                                textView.setPadding(10,0,0,0);
-//                                textView.setText("...");
-//                                textView.setTextAppearance(R.style.ThreeDotTextAppearance);
-//                                cartLinearLayout.addView(textView);
-//                            }
-                        } else {
-                            Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    for (Accessory accessory : accessories) {
+                        if (cartKeys.contains(accessory.getId())) {
+                            accessory.setAddedToCart(true);
                         }
-                    });
+                    }
+                    int i = 0;
+                    for (Accessory cartAccessory : accessories) {
+                        if (cartAccessory.isAddedToCart()) {
+                            ImageView imageView = new ImageView(MyApplication.getAppContext());
+                            imageView.setLayoutParams(new LinearLayout.LayoutParams(96, 96));
+                            imageView.setPadding(10, 0, 0, 0);
+                            cartLinearLayout.addView(imageView);
+                            Glide.with(MyApplication.getAppContext()).load(Uri.parse(cartAccessory.getUrl())).apply(RequestOptions.circleCropTransform()).into(imageView);
+                            i++;
+                            if (i == 2) {
+                                break;
+                            }
+                        }
+                    }
+                    adapter = new AccessoryCardRecyclerViewAdapter(accessories, getActivity(), AccessoryGridFragment.this);
+                    Log.d(TAG, "onComplete: " + accessories.toString());
+                    recyclerView.setAdapter(adapter);
+
                 }
             }
 
@@ -226,5 +265,4 @@ public class AccessoryGridFragment extends Fragment {
         });
 
     }
-
 }

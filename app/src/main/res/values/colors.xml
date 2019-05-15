@@ -31,6 +31,8 @@
     <color name="nightProductGridBackgroundColor">#000405</color>
     <color name="nightIconColor">#FBB8AC</color>
 
+    <color name="navBarColor">#FBB8AC</color>
+    <color name="topBarColor">#FBB8AC</color>
     <color name="errorColor">#FFDD2C00</color>
 
 </resources>

@@ -98,7 +98,9 @@ public class CartFragment extends Fragment {
                             for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 Log.d(TAG, "onDataChange: "+document.getId()    );
                                 if(cartKeys.contains(document.getId())){
-                                    cartAccessories.add(document.toObject(Accessory.class));
+                                    Accessory accessory= document.toObject(Accessory.class);
+                                    accessory.setId(document.getId());
+                                    cartAccessories.add(accessory);
                                 }
                             }
                             Log.d(TAG, "onDataChange:"+cartAccessories.toString());
@@ -134,5 +136,6 @@ public class CartFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
 
     }
+
 
 }

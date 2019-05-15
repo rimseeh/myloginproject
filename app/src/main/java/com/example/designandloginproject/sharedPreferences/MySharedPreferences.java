@@ -37,6 +37,11 @@ public class MySharedPreferences {
         editor.putBoolean(key,value);
         return editor.commit();
     }
+    public  boolean writeInteger(String key, int value){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putInt(key,value);
+        return editor.commit();
+    }
 
     public String readString (String key, String defaultValue){
         return mSharedPreferences.getString(key,defaultValue);
@@ -44,7 +49,9 @@ public class MySharedPreferences {
     public boolean readBoolean (String key, Boolean defaultValue){
         return mSharedPreferences.getBoolean(key,defaultValue);
     }
-
+    public int readInt (String key, int defaultValue){
+        return mSharedPreferences.getInt(key,defaultValue);
+    }
 
 
 }
