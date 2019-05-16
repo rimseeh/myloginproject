@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,51 +31,56 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.annotations.NotNull;
-
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-
+/**
+ * Fragment that displays the login page
+ * it has three different methods to login with
+ * (login with email, login with gmail, login with facebook)
+ * forget password button that navigate to forget fragment
+ * sign up button that navigate to sign up fragment enabling the user to sign up using his information
+ */
 public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
-    private FirebaseAuth mAuth= FirebaseAuth.getInstance();
     private static final int GE_SIGN_IN = 9001;
-    private static final int FB_SIGN_IN = 9001;
+
     View view;
 
     @BindView(R.id.sign_up_button_login)
-    Button buttonSignUp;
+    Button signUpButton;
     @BindView(R.id.login_button_login)
-    Button buttonLogin;
+    Button loginButton;
+
     @BindView(R.id.textView_forget_password)
-    TextView textViewForgetPass;
+    TextView forgetPassTextView;
+
     @BindView(R.id.checkBox_login)
-    MaterialCheckBox checkBox;
+    MaterialCheckBox rememberMeCheckBox;
 
     @BindView(R.id.email_edit_text_login)
     TextInputEditText emailEditText;
     @BindView(R.id.password_edit_text_login)
     TextInputEditText passwordEditText;
-
     @BindView(R.id.email_text_input_login)
     TextInputLayout emailTextInputLayout;
     @BindView(R.id.password_text_input_login)
     TextInputLayout passwordTextInputLayout;
+
     @BindView(R.id.progressBar_login)
     ProgressBar progressBar;
 
@@ -86,9 +90,6 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.login_button)
     LoginButton facebookLoginButton;
 
-
-
-    private FirebaseUser firebaseUser;
     private CallbackManager mCallbackManager = null;
 
     private boolean checkBoxBoolean;
@@ -97,17 +98,14 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_login, container, false);
+        //butter knife binding for all views
         ButterKnife.bind(this, view);
-        if (MySharedPreferences.getInstance(getActivity()).readString("email", null) != null) {
-            emailEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("email", null));
-            passwordEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("password", null));
-        }
+        loadSavedEmailAndPassword();
         setFaceBookLoginButton();
         MyGoogle.setGooglePlusButtonText(googleSignInButton, "Continue with gmail");
         return view;
@@ -118,6 +116,10 @@ public class LoginFragment extends Fragment {
         checkBoxBoolean = checked;
     }
 
+    /**
+     * on click listeners for all buttons in and textViews in the logIn fragment
+     * @param v view to which has the listener
+     */
     @OnClick({R.id.sign_up_button_login, R.id.login_button_login, R.id.textView_forget_password, R.id.sign_in_button_google})
     void onClick(View v) {
         switch (v.getId()) {
@@ -125,12 +127,17 @@ public class LoginFragment extends Fragment {
                 ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new SignUpFragment(), true); // Navigate to the sign up Fragment
                 break;
             case R.id.login_button_login:
-                if (isUserValidate()) {
+                if (User.isUserValidateByEmailandPassword(
+                        Objects.requireNonNull(emailEditText.getText()).toString(),
+                        Objects.requireNonNull(passwordEditText.getText()).toString(),
+                        emailTextInputLayout,
+                        passwordTextInputLayout
+                )) {
                     if (checkBoxBoolean) {
                         MySharedPreferences.getInstance(getActivity()).writeString("email", Objects.requireNonNull(emailEditText.getText()).toString());
                         MySharedPreferences.getInstance(getActivity()).writeString("password", Objects.requireNonNull(passwordEditText.getText()).toString());
                     }
-                    MyEmail.getInstance(getActivity()).signInWithEamil(progressBar, emailEditText, passwordEditText);
+                    MyEmail.getInstance(getActivity()).signInWithEmail(progressBar, Objects.requireNonNull(emailEditText.getText()).toString(), Objects.requireNonNull(passwordEditText.getText()).toString());
                 }
                 break;
             case R.id.textView_forget_password:
@@ -166,6 +173,20 @@ public class LoginFragment extends Fragment {
 
     }
 
+    /**
+     * load email and password if these are saved
+     */
+
+    private void loadSavedEmailAndPassword() {
+        if (MySharedPreferences.getInstance(getActivity()).readString("email", null) != null) {
+            emailEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("email", null));
+            passwordEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("password", null));
+        }
+    }
+
+    /**
+     * setting up the facebook button to sign in using facebook information
+     */
     private void setFaceBookLoginButton() {
         mCallbackManager = CallbackManager.Factory.create();
         facebookLoginButton.setReadPermissions("email", "public_profile");
@@ -190,24 +211,10 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    private boolean isUserValidate() {
-        boolean validateBoolean = true;
-        if (!User.isEmailValid(Objects.requireNonNull(emailEditText.getText()).toString())) {
-            emailTextInputLayout.setError(getString(R.string.error_email));
-            validateBoolean = false;
-        } else {
-            emailTextInputLayout.setError(null);
-        }
 
-        if (!Pattern.compile(getString(R.string.password_special_char)).matcher(Objects.requireNonNull(passwordEditText.getText()).toString()).matches()) {
-            passwordTextInputLayout.setError(getString(R.string.error_password));
-            validateBoolean = false;
-        } else {
-            passwordTextInputLayout.setError(null);
-        }
-        return validateBoolean;
-    }
-
+    /**
+     * setting up the google login button to sign in using google information
+     */
     private void setGoogleLoginButton() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

@@ -1,5 +1,9 @@
 package com.example.designandloginproject.models;
 
+import com.example.designandloginproject.R;
+import com.example.designandloginproject.application.MyApplication;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
@@ -103,5 +107,34 @@ public class User implements Serializable {
         if (email == null)
             return false;
         return pat.matcher(email).matches();
+    }
+
+    /**
+     * check if the user inserted email and password are correct
+     *
+     * @param email          email text
+     * @param password       password text
+     * @param emailLayout    TextInputLayout for the email
+     * @param passwordLayout TextInputLayout for the password
+     * @return true if user is valid, false if the inserted fields are not valid
+     */
+    public static boolean isUserValidateByEmailandPassword(
+            String email, String password,
+            TextInputLayout emailLayout, TextInputLayout passwordLayout) {
+
+        boolean validateBoolean = true;
+        if (!User.isEmailValid(email)) {
+            emailLayout.setError(MyApplication.getInstance().getString(R.string.error_email));
+            validateBoolean = false;
+        } else {
+            emailLayout.setError(null);
+        }
+        if (!Pattern.compile(MyApplication.getInstance().getString(R.string.password_special_char)).matcher(password).matches()) {
+            passwordLayout.setError(MyApplication.getInstance().getString(R.string.error_password));
+            validateBoolean = false;
+        } else {
+            passwordLayout.setError(null);
+        }
+        return validateBoolean;
     }
 }

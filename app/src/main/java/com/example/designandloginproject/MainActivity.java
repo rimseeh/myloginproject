@@ -1,116 +1,69 @@
 package com.example.designandloginproject;
 
-
-//import android.annotation.SuppressLint;
-
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
-//import android.content.pm.PackageInfo;
-//import android.content.pm.PackageManager;
-//import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-//import android.util.Base64;
-//import android.util.Log;
 
-import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.fragments.AccessoryGridFragment;
 import com.example.designandloginproject.fragments.LoginFragment;
-import com.example.designandloginproject.fragments.SettingsFragment;
 import com.example.designandloginproject.network.ConnectivityReceiver;
 import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
 import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.firestore.FirebaseFirestore;
-
-//import java.security.MessageDigest;
-//import java.security.NoSuchAlgorithmException;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
-//import android.graphics.Bitmap;
-//import android.graphics.BitmapFactory;
-//import android.graphics.ImageFormat;
-//import android.net.Uri;
-//import android.os.Build;
-
-
+/**
+ * Main activity (the only activity) which displays all the fragments inside
+ */
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 
+    //broadcast receiver for internet access availability
     private BroadcastReceiver mNetworkReceiver;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    //firebase authentication to check if user is logged in or not
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        MySharedPreferences mySharedPreferences=MySharedPreferences.getInstance(this);
-//        AppCompatDelegate.setDefaultNightMode(mySharedPreferences.readInt("Mode",AppCompatDelegate.MODE_NIGHT_NO));
-        if (mySharedPreferences.readInt("Mode",AppCompatDelegate.MODE_NIGHT_NO)==AppCompatDelegate.MODE_NIGHT_YES) {
+        //setting the application theme from the shared preferences
+        MySharedPreferences mySharedPreferences = MySharedPreferences.getInstance(this);
+        if (mySharedPreferences.readInt("Mode", AppCompatDelegate.MODE_NIGHT_NO)
+                == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme);
         } else {
             setTheme(R.style.Theme);
         }
+
+        //loading the main activity layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyApplication myApplication = MyApplication.getInstance();
+
+        //registering a BroadCast receiver for no internet access
         mNetworkReceiver = new ConnectivityReceiver();
         registerNetworkBroadcast();
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null && extras.getBoolean("settingsFragment")) {
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .add(R.id.container,new AccessoryGridFragment())
-//                    .commit();
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.container, new SettingsFragment())
-//                    .addToBackStack(null)
-//                    .commit();
-//        } else {
-//        printKeyHash();
-//        ArrayList<Accessory> accessories = (ArrayList<Accessory>) Accessory.initAccessoryEntryList(getResources());
-//        Log.d(TAG, "onCreate: "+accessories.toString());
-//        db = FirebaseFirestore.getInstance();
-//        for(Accessory accessory: accessories) {
-//            CollectionReference collectionReference = db.collection("accessory_images");
-//            collectionReference.add(accessory)
-//                    .addOnSuccessListener(documentReference -> Log.d(TAG, "onCreate: "+accessory.toString()))
-//                    .addOnFailureListener(e -> Toast.makeText(MyApplication.getAppContext(), "model failed to be added", Toast.LENGTH_SHORT).show());
-//        }
-            if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.container, new AccessoryGridFragment())
-                        .commit();
-            } else if (savedInstanceState == null) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.container, new LoginFragment())
-                        .commit();
-            }
-//        }
+
+        // start from the Accessory fragment if the user is logged in
+        if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new AccessoryGridFragment())
+                    .commit();
+        }
+        //start from the login fragment if user is already logged in and the email is valid
+        else if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new LoginFragment())
+                    .commit();
+        }
     }
 
-//    private void printKeyHash() {
-//        // Add code to print out the key hash
-//        try {
-//            @SuppressLint("PackageManagerGetSignatures") PackageInfo info = getPackageManager().getPackageInfo("com.example.designandloginproject", PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            Log.e("KeyHash:", e.toString());
-//        } catch (NoSuchAlgorithmException e) {
-//            Log.e("KeyHash:", e.toString());
-//        }
-//    }
-
-
+    /**
+     * Trigger a navigation to the specified fragment, optionally adding a transaction to the back
+     * stack to make this navigation reversible.
+     */
     @Override
     public void navigateTo(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction =
@@ -125,8 +78,15 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         transaction.commit();
     }
 
+    /**
+     * Trigger a navigation to the specified fragment with animation,
+     * optionally adding a transaction to the back
+     * stack to make this navigation reversible.
+     */
     @Override
-    public void navigateToWithAnimation(Fragment fragment, boolean addToBackStack, int animationIn, int animationOut, int backAnimationIn, int backAnimationOut) {
+    public void navigateToWithAnimation
+    (Fragment fragment, boolean addToBackStack,
+     int animationIn, int animationOut, int backAnimationIn, int backAnimationOut) {
 
         FragmentTransaction transaction =
                 getSupportFragmentManager()
@@ -141,10 +101,16 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         transaction.commit();
     }
 
+    /**
+     * register a broadcast Receiver listening to the internet access
+     */
     private void registerNetworkBroadcast() {
         registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
+    /**
+     * removing a broadcast Receiver
+     */
     protected void unregisterNetworkChanges() {
         try {
             unregisterReceiver(mNetworkReceiver);
@@ -153,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
         }
     }
 
+    /**
+     * calling the unregisterNetworkChanges to remove the network broadcast Receiver
+     */
     @Override
     protected void onDestroy() {
         unregisterNetworkChanges();

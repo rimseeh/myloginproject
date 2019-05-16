@@ -6,15 +6,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.example.designandloginproject.MainActivity;
 import com.example.designandloginproject.R;
 import com.example.designandloginproject.network.ConnectivityReceiver;
 import com.google.android.material.button.MaterialButton;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,15 +39,13 @@ public class NetworkErrorFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_network_error, container, false);
         ButterKnife.bind(this, view);
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            isConnectedToNetwork();
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::isConnectedToNetwork);
         return view;
     }
 
@@ -58,7 +59,7 @@ public class NetworkErrorFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
         if(ConnectivityReceiver.isConnected()){
             Intent intent = new Intent(getActivity(), MainActivity.class);
-            getActivity().startActivity(intent);
+            Objects.requireNonNull(getActivity()).startActivity(intent);
             getActivity().finish();
         }
         swipeRefreshLayout.setRefreshing(false);

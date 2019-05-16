@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
@@ -103,12 +104,12 @@ public class SignUpFragment extends Fragment {
     @BindView(R.id.sign_up_progress_bar)
     ProgressBar progressBar;
 
-    private String date;
+    private String mDate;
     private DatePickerDialog.OnDateSetListener mOnDateSetListener;
 
     private FirebaseAuth mAuth;
 
-    User user;
+    private User mUser;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -117,7 +118,7 @@ public class SignUpFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
@@ -133,41 +134,41 @@ public class SignUpFragment extends Fragment {
     void onClick() {
         Log.d(TAG, "onClick: ");
         if (isValidUser()) {
-            user = new User(
-                    emailEditText.getText().toString(),
-                    firstNameEditText.getText().toString(),
-                    lastNameEditText.getText().toString(),
-                    phoneEditText.getText().toString(),
+            mUser = new User(
+                    Objects.requireNonNull(emailEditText.getText()).toString(),
+                    Objects.requireNonNull(firstNameEditText.getText()).toString(),
+                    Objects.requireNonNull(lastNameEditText.getText()).toString(),
+                    Objects.requireNonNull(phoneEditText.getText()).toString(),
                     gender,
                     citySpinner.getSelectedItem().toString()
             );
             progressBar.setVisibility(View.VISIBLE);
-            mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString())
+            mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), Objects.requireNonNull(passwordEditText.getText()).toString())
                     .addOnCompleteListener(task -> {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
                             //store additional fields
                             FirebaseDatabase.getInstance().getReference("users")
                                     .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
-                                    .setValue(user).addOnCompleteListener(task1 -> {
+                                    .setValue(mUser).addOnCompleteListener(task1 -> {
                                 if (task1.isSuccessful()) {
                                     Toast.makeText(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
                                     mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
-                                            Toast.makeText(getActivity(), "Verification email sent to " + user.getEmail(), Toast.LENGTH_LONG).show();
-                                            ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
+                                            Toast.makeText(getActivity(), "Verification email sent to " + mUser.getEmail(), Toast.LENGTH_LONG).show();
+                                            ((NavigationHost) Objects.requireNonNull(getActivity())).navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
                                         } else {
                                             Log.e(TAG, "sendEmailVerification", task.getException());
                                             Toast.makeText(getActivity(), "Failed to send verification email.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(getActivity(), task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), Objects.requireNonNull(task1.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         } else {
-                            Log.d(TAG, "onClick: " + task.getException().getMessage());
-                            Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "onClick: " + Objects.requireNonNull(task.getException()).getMessage());
+                            Toast.makeText(getActivity(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -177,7 +178,7 @@ public class SignUpFragment extends Fragment {
 
     private Boolean isValidUser() {
         Boolean error = false;
-        if (!User.isEmailValid(emailEditText.getText().toString())) {
+        if (!User.isEmailValid(Objects.requireNonNull(emailEditText.getText()).toString())) {
             emailInputLayout.setError(getString(R.string.error_email));
             error = ERROR;
         } else {
@@ -256,35 +257,16 @@ public class SignUpFragment extends Fragment {
                     R.style.DatePickerTheme,
                     mOnDateSetListener,
                     year, day, month);
-            datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Objects.requireNonNull(datePickerDialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             datePickerDialog.show();
         });
         mOnDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
-            date = dayOfMonth + "/" + month + "/" + year;
+            mDate = dayOfMonth + "/" + month + "/" + year;
             dateSet = true;
-            dateTextView.setText(date);
+            dateTextView.setText(mDate);
         };
     }
 
-//    @OnTouch(R.id.layout)
-//    public boolean onTouchEvent(MotionEvent touchEvent){
-//        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-//
-//        switch (touchEvent.getAction()){
-//            case MotionEvent.ACTION_DOWN:
-//                x1=touchEvent.getX();
-//                y1=touchEvent.getY();
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                x2=touchEvent.getX();
-//                y2=touchEvent.getY();
-//                if(x1+displayMetrics.widthPixels/2<x2){
-//                    ((NavigationHost) getActivity()).navigateTo(new LoginFragment(), false); // Navigate to the next Fragment
-//                }
-//                break;
-//        }
-//        return false;
-//    }
 
 }

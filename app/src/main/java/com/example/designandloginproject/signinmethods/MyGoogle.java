@@ -1,5 +1,6 @@
 package com.example.designandloginproject.signinmethods;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
@@ -19,51 +20,69 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MyGoogle {
     private static final String TAG = "MyGoogle";
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private Activity activity=null;
-    FirebaseUser firebaseUser=null;
+    private Activity mActivity;
+    private FirebaseUser mFirebaseUser;
+    @SuppressLint("StaticFieldLeak")
     private static MyGoogle ourInstance = null;
-    private View view=null;
+    private View mView;
 
-    public static MyGoogle getInstance(Activity activity,View view) {
+    public static MyGoogle getInstance(Activity activity, View view) {
         if (ourInstance == null) {
             ourInstance = new MyGoogle(activity, view);
-
         }
-
         return ourInstance;
     }
 
-    private MyGoogle(Activity activity,View view) {
-        this.activity=activity;
-        this.view=view;
+    /**
+     * Private constructor to make a single object from MyGoogle class
+     */
+    private MyGoogle(Activity activity, View view) {
+        this.mActivity = activity;
+        this.mView = view;
+    }
+    /**
+     * Getter for the Main Activity
+     */
+    private Activity getActivity() {
+        return mActivity;
     }
 
-    public void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+    private View getView() {
+        return mView;
+    }
+
+    /**
+     * Signing in with google verification using google account and adding the account to the firebase database
+     * @param account google account to sign in with
+     */
+    public void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener( activity, task -> {
+                .addOnCompleteListener(mActivity, task -> {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "signInWithCredential:success");
-                        firebaseUser = mAuth.getCurrentUser();
-                        ((NavigationHost) activity).navigateTo(new AccessoryGridFragment(), false); // Navigate to the grid Fragment
+                        mFirebaseUser = mAuth.getCurrentUser();
+                        ((NavigationHost) getActivity()).navigateTo(new AccessoryGridFragment(), false); // Navigate to the grid Fragment
                         User user = new User();
-                        user.setEmail(firebaseUser.getEmail());
-                        ArrayList<String> strings = getFirstAndLastNameGoogle(acct);
+                        user.setEmail(mFirebaseUser.getEmail());
+                        ArrayList<String> strings = getFirstAndLastNameGoogle(account);
                         user.setFirstName(strings.get(0));
                         user.setLastName(strings.get(1));
-                        user.setPhone(firebaseUser.getPhoneNumber());
+                        user.setPhone(mFirebaseUser.getPhoneNumber());
+                        //save the user to the firebase database
                         FirebaseDatabase.getInstance().getReference("users")
-                                .child(mAuth.getCurrentUser().getUid())
+                                .child(Objects.requireNonNull(mAuth.getCurrentUser()).getUid())
                                 .setValue(user).addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 Log.d(TAG, "handleFacebookAccessToken: ");
                             } else {
-                                Log.e(TAG, "handleFacebookAccessToken: " + task1.getException().getMessage(), task1.getException());
+                                Log.e(TAG, "handleFacebookAccessToken: " + Objects.requireNonNull(task1.getException()).getMessage(), task1.getException());
                             }
                         });
                     } else {
@@ -71,19 +90,19 @@ public class MyGoogle {
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
                         Snackbar.make(getView().findViewById(R.id.container), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                     }
-
-                    // ...
                 });
     }
 
-    private View getView() {
-        return view;
-    }
-
+    /**
+     * getting the first and last name from google account
+     * @param acct google account to get the first and last name
+     * @return array list that has two nodes (first is user name and second last name)
+     */
     private ArrayList<String> getFirstAndLastNameGoogle(GoogleSignInAccount acct) {
         ArrayList<String> strings = new ArrayList<>();
-        String fullname = acct.getDisplayName();
-        String[] parts = fullname.split("\\s+");
+        String fullName = acct.getDisplayName();
+        assert fullName != null;
+        String[] parts = fullName.split("\\s+");
         Log.d("Length-->", "" + parts.length);
         String firstname = null;
         String lastname = null;
@@ -97,17 +116,21 @@ public class MyGoogle {
             lastname = parts[2];
             Log.d("First-->", "" + firstname);
             Log.d("Last-->", "" + lastname);
-
         }
         strings.add(firstname);
         strings.add(lastname);
         return strings;
     }
+
+    /**
+     * Find the TextView that is inside of the SignInButton and set its text
+     * @param signInButton this is google sign in button
+     * @param buttonText the text to set the google text button
+     */
     public static void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
-        // Find the TextView that is inside of the SignInButton and set its text
+        //
         for (int i = 0; i < signInButton.getChildCount(); i++) {
             View v = signInButton.getChildAt(i);
-
             if (v instanceof TextView) {
                 TextView tv = (TextView) v;
                 tv.setText(buttonText);

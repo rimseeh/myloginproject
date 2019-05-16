@@ -46,8 +46,8 @@ public class CartFragment extends Fragment {
     @BindView(R.id.shopping_cart_back_image_button)
     ImageButton backImageButton;
     View view;
-    ArrayList<Accessory> cartAccessories;
-    ArrayList<String> cartKeys;
+    private ArrayList<Accessory> mCartAccessories;
+    private ArrayList<String> mCartKeys;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @BindView(R.id.shopping_cart_accessory_swipe_refresh_layout)
@@ -58,7 +58,7 @@ public class CartFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_cart, container, false);
@@ -71,18 +71,12 @@ public class CartFragment extends Fragment {
         return view;
     }
 
-    private void setCartAccessories() {
-
-
-
-    }
-
     private void setCartKeysAndCartAccessories() {
         cartSwipeRefreshLayout.setRefreshing(true);
-        cartKeys =new ArrayList<String>();
+        mCartKeys =new ArrayList<>();
         FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
         DatabaseReference databaseReference= firebaseDatabase.getReference("cart/"+mAuth.getUid());
-        cartAccessories = new ArrayList<>();
+        mCartAccessories = new ArrayList<>();
         Query query = FirebaseFirestore.getInstance().collection("accessory_images");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,24 +84,25 @@ public class CartFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        cartKeys.add(snapshot.getKey());
+                        mCartKeys.add(snapshot.getKey());
                     }
-                    Log.d(TAG, "onDataChange: "+cartKeys.toString());
+                    Log.d(TAG, "onDataChange: "+ mCartKeys.toString());
                     query.get().addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                                 Log.d(TAG, "onDataChange: "+document.getId()    );
-                                if(cartKeys.contains(document.getId())){
+                                if(mCartKeys.contains(document.getId())){
                                     Accessory accessory= document.toObject(Accessory.class);
+                                    assert accessory != null;
                                     accessory.setId(document.getId());
-                                    cartAccessories.add(accessory);
+                                    mCartAccessories.add(accessory);
                                 }
                             }
-                            Log.d(TAG, "onDataChange:"+cartAccessories.toString());
+                            Log.d(TAG, "onDataChange:"+ mCartAccessories.toString());
                             setUpCartCardRecyclerViewAdapter();
                             cartSwipeRefreshLayout.setRefreshing(false);
                         } else {
-                            Toast.makeText(MyApplication.getAppContext(), task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MyApplication.getAppContext(), Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -122,17 +117,15 @@ public class CartFragment extends Fragment {
 
     @OnClick(R.id.shopping_cart_back_image_button)
     void onClick(View view){
-        switch (view.getId()){
-            case R.id.shopping_cart_back_image_button:
-                Objects.requireNonNull(getActivity()).onBackPressed();
-                break;
+        if (view.getId() == R.id.shopping_cart_back_image_button) {
+            Objects.requireNonNull(getActivity()).onBackPressed();
         }
     }
     private void setUpCartCardRecyclerViewAdapter() {
         RecyclerView recyclerView = view.findViewById(R.id.shopping_cart_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        AccessoryCartCardRecyclerViewAdapter recyclerViewAdapter = new AccessoryCartCardRecyclerViewAdapter(cartAccessories);
+        AccessoryCartCardRecyclerViewAdapter recyclerViewAdapter = new AccessoryCartCardRecyclerViewAdapter(mCartAccessories);
         recyclerView.setAdapter(recyclerViewAdapter);
 
     }

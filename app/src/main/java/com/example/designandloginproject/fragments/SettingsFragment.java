@@ -1,7 +1,6 @@
 package com.example.designandloginproject.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,11 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.designandloginproject.MainActivity;
 import com.example.designandloginproject.R;
 import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
 import com.google.android.material.switchmaterial.SwitchMaterial;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,14 +31,13 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.switchMaterial_dark_theme)
     SwitchMaterial switchMaterial;
 
-    boolean checkedABoolean;
     public SettingsFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -46,12 +45,10 @@ public class SettingsFragment extends Fragment {
         ButterKnife.bind(this,view);
         switchMaterial.setOnCheckedChangeListener(null);
         MySharedPreferences mySharedPreferences= MySharedPreferences.getInstance(MyApplication.getAppContext());
-        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES){
-            checkedABoolean=false;
+        if(mySharedPreferences.readInt("Mode",AppCompatDelegate.MODE_NIGHT_NO)==AppCompatDelegate.MODE_NIGHT_YES){
             switchMaterial.setChecked(true);
         }
         else {
-            checkedABoolean=false;
             switchMaterial.setChecked(false);
         }
         switchMaterial.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -59,14 +56,15 @@ public class SettingsFragment extends Fragment {
             if(fragment!=null) {
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    getActivity().setTheme(R.style.DarkTheme);
+                    Objects.requireNonNull(getActivity()).setTheme(R.style.DarkTheme);
                     mySharedPreferences.writeInteger("Mode",AppCompatDelegate.MODE_NIGHT_YES);
 
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    getActivity().setTheme(R.style.Theme);
+                    Objects.requireNonNull(getActivity()).setTheme(R.style.Theme);
                     mySharedPreferences.writeInteger("Mode",AppCompatDelegate.MODE_NIGHT_NO);
                 }
+                assert getFragmentManager() != null;
                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
             }else {
                 Toast.makeText(MyApplication.getAppContext(), "Error while changing theme", Toast.LENGTH_SHORT).show();
@@ -75,22 +73,16 @@ public class SettingsFragment extends Fragment {
         return view;
     }
 
-    private void restartApp() {
-        Intent intent =new Intent(MyApplication.getAppContext(), MainActivity.class);
-        getActivity().finish();
-        startActivity(intent);
-
-    }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        Fragment fragment =getActivity().getSupportFragmentManager().findFragmentByTag("Settings Fragment");
+        Fragment fragment = Objects.requireNonNull(getActivity()).getSupportFragmentManager().findFragmentByTag("Settings Fragment");
         if (fragment!=null){
             getActivity().getSupportFragmentManager().putFragment(outState,"Fragment",fragment);
         }
     }
 
     SettingsFragment getFragment(){
+        assert getFragmentManager() != null;
         for (Fragment fragment : getFragmentManager().getFragments()){
             if (fragment instanceof SettingsFragment)
                 return (SettingsFragment)fragment;

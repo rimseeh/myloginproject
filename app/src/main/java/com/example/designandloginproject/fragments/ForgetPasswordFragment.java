@@ -14,9 +14,12 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,11 +38,10 @@ public class ForgetPasswordFragment extends Fragment {
     @BindView(R.id.email_text_input_reset)
     TextInputLayout emailInputLayout;
 
-    String email=null;
+    private String mEmail =null;
 
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public ForgetPasswordFragment() {
         // Required empty public constructor
@@ -47,7 +49,7 @@ public class ForgetPasswordFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_forget_password, container, false);
@@ -59,17 +61,17 @@ public class ForgetPasswordFragment extends Fragment {
 
     @OnClick(R.id.reset_button)
     public void onClick(){
-        email = editTextEmail.getText().toString();
-        if (User.isEmailValid(email)) {
-            mAuth.fetchProvidersForEmail(email).addOnCompleteListener(task -> {
-                if (task.getResult().getProviders().isEmpty()) {
-                    Toast.makeText(getActivity(), "email not found", Toast.LENGTH_SHORT).show();
+        mEmail = Objects.requireNonNull(editTextEmail.getText()).toString();
+        if (User.isEmailValid(mEmail)) {
+            mAuth.fetchProvidersForEmail(mEmail).addOnCompleteListener(task -> {
+                if (Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getProviders()).isEmpty()) {
+                    Toast.makeText(getActivity(), "mEmail not found", Toast.LENGTH_SHORT).show();
                 } else {
-                    mAuth.sendPasswordResetEmail(email).addOnCompleteListener(task1 -> {
+                    mAuth.sendPasswordResetEmail(mEmail).addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             Toast.makeText(getActivity(), "Reset Password Sent to Email", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.e(TAG, "onCreate: " + task1.getException().getMessage());
+                            Log.e(TAG, "onCreate: " + Objects.requireNonNull(task1.getException()).getMessage());
                             Toast.makeText(getActivity(), task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
