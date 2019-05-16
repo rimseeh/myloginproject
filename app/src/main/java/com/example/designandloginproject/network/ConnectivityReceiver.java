@@ -1,5 +1,6 @@
 package com.example.designandloginproject.network;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +13,14 @@ import com.example.designandloginproject.fragments.NetworkErrorFragment;
 import com.example.designandloginproject.application.MyApplication;
 
 public class ConnectivityReceiver extends BroadcastReceiver {
-
+    private static final String TAG = "ConnectivityReceiver";
     public static ConnectivityReceiverListener connectivityReceiverListener;
 
     public ConnectivityReceiver() {
         super();
     }
 
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -26,12 +28,12 @@ public class ConnectivityReceiver extends BroadcastReceiver {
         {
             if (isConnected()) {
                 //MainActivity.dialog(true);
-                Log.e("keshav", "Online Connect Intenet ");
+                Log.e(TAG, "Online Connect Intenet ");
 
             } else {
                 //MainActivity.dialog(false);
                 ((NavigationHost) context).navigateTo(new NetworkErrorFragment(), false); // Navigate to the sign up Fragment
-                Log.e("keshav", "Conectivity Failure !!! ");
+                Log.e(TAG, "Conectivity Failure !!! ");
             }
         } catch (NullPointerException e) {
             e.printStackTrace();

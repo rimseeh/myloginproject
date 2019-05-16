@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.example.designandloginproject.R;
 import com.example.designandloginproject.application.MyApplication;
-import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.Objects;
@@ -44,8 +43,7 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         ButterKnife.bind(this,view);
         switchMaterial.setOnCheckedChangeListener(null);
-        MySharedPreferences mySharedPreferences= MySharedPreferences.getInstance(MyApplication.getAppContext());
-        if(mySharedPreferences.readInt("Mode",AppCompatDelegate.MODE_NIGHT_NO)==AppCompatDelegate.MODE_NIGHT_YES){
+        if(MyApplication.getInstance().getInt("Mode",AppCompatDelegate.MODE_NIGHT_NO)==AppCompatDelegate.MODE_NIGHT_YES){
             switchMaterial.setChecked(true);
         }
         else {
@@ -57,12 +55,12 @@ public class SettingsFragment extends Fragment {
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                     Objects.requireNonNull(getActivity()).setTheme(R.style.DarkTheme);
-                    mySharedPreferences.writeInteger("Mode",AppCompatDelegate.MODE_NIGHT_YES);
+                    MyApplication.getInstance().saveInt("Mode",AppCompatDelegate.MODE_NIGHT_YES);
 
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     Objects.requireNonNull(getActivity()).setTheme(R.style.Theme);
-                    mySharedPreferences.writeInteger("Mode",AppCompatDelegate.MODE_NIGHT_NO);
+                    MyApplication.getInstance().saveInt("Mode",AppCompatDelegate.MODE_NIGHT_NO);
                 }
                 assert getFragmentManager() != null;
                 getFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();

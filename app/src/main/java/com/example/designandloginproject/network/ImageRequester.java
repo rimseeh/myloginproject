@@ -1,5 +1,6 @@
 package com.example.designandloginproject.network;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
@@ -15,17 +16,16 @@ import com.example.designandloginproject.application.MyApplication;
  * Class that handles image requests using Volley.
  */
 public class ImageRequester {
+    @SuppressLint("StaticFieldLeak")
     private static ImageRequester instance = null;
     private final Context context;
-    private final RequestQueue requestQueue;
     private final ImageLoader imageLoader;
-    private final int maxByteSize;
 
     private ImageRequester() {
         context = MyApplication.getAppContext();
-        this.requestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
-        this.requestQueue.start();
-        this.maxByteSize = calculateMaxByteSize();
+        RequestQueue requestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
+        requestQueue.start();
+        int maxByteSize = calculateMaxByteSize();
         this.imageLoader =
                 new ImageLoader(
                         requestQueue,

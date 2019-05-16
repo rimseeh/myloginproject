@@ -20,6 +20,13 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Recycler View Adapter for the cart fragment
+ * this Recycler View Adapter has three different View Holders
+ * the first is for the cart
+ * the second is for calculating the total cost at the bottom
+ * the third is empty card in the bottom
+ */
 public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_CART = 0;
     private static final int VIEW_TYPE_CART_FOOTER = 1;
@@ -28,16 +35,24 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     private ImageRequester cartImageRequester;
     private double total = 0;
 
+    /**
+     * Constructor for the Recycler view adapter
+     *
+     * @param cartAccessories list that has all the carts to display
+     */
     public AccessoryCartCardRecyclerViewAdapter(List<Accessory> cartAccessories) {
         this.cartAccessories = cartAccessories;
         cartImageRequester = ImageRequester.getInstance();
     }
 
+    /**
+     * Used to initialize the view holder to each holder separately
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View layoutView;
-        RecyclerView.ViewHolder holder = null;
+        RecyclerView.ViewHolder holder;
         if (viewType == VIEW_TYPE_CART) {
             layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_card, parent, false);
             holder = new AccessoryCartCardViewHolder(layoutView);
@@ -51,9 +66,17 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         return holder;
     }
 
+    /**
+     * Add the view to the recycler view
+     *
+     * @param viewHolder view holder that is added to the recycler view
+     * @param position   the position of the array list to add the recycler view
+     */
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        // Add the accessory to the recycler view by changing the image, title, description, and price
+        // add listener for the remove image button
         if (viewHolder instanceof AccessoryCartCardViewHolder) {
             AccessoryCartCardViewHolder holder = (AccessoryCartCardViewHolder) viewHolder;
             Accessory accessory = cartAccessories.get(position);
@@ -61,10 +84,9 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
             holder.descriptionTextView.setText(accessory.getDescription());
             holder.priceTextView.setText(accessory.getPrice() + "$");
             cartImageRequester.setImageFromUrl(holder.networkImageView, accessory.getUrl());
-            holder.removeImageButton.setOnClickListener(v -> {
-                removeFromDataBase(accessory, holder, position);
-            });
+            holder.removeImageButton.setOnClickListener(v -> removeFromDataBaseAndRecyclerView(accessory, holder, position));
         }
+        // Calculate the total and add it to the Recycler View
         if (viewHolder instanceof AccessoryFooterCartCardViewHolder) {
             AccessoryFooterCartCardViewHolder holder = (AccessoryFooterCartCardViewHolder) viewHolder;
             this.total = 0;
@@ -73,7 +95,14 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         }
     }
 
-    private void removeFromDataBase(Accessory accessory, AccessoryCartCardViewHolder holder, int position) {
+    /**
+     * Remove the selected view from the recycler view and the data base
+     *
+     * @param accessory accessory to be removed from the database and the recycler view
+     * @param holder    accessory card view to be removed from the recycler view
+     * @param position  the position of the recycler view to be removed
+     */
+    private void removeFromDataBaseAndRecyclerView(Accessory accessory, AccessoryCartCardViewHolder holder, int position) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("cart/" + mAuth.getUid());
@@ -85,11 +114,19 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         });
     }
 
+    /**
+     * Get the number of elements to be added to the recycler view
+     */
     @Override
     public int getItemCount() {
         return cartAccessories.size() + 2;
     }
 
+    /**
+     * Get the type of the card to be added to the recycler view according to position
+     *
+     * @param position position of the card to be added to the recycler view
+     */
     @Override
     public int getItemViewType(int position) {
         if (position < cartAccessories.size()) {
@@ -100,12 +137,19 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         return VIEW_TYPE_EMPTY_CART_FOOTER;
     }
 
+    /**
+     * Calculate the total price of the accessories added to the Recycler View
+     */
     private void setTotal() {
         for (Accessory accessory : cartAccessories) {
             this.total = this.total + Double.parseDouble(accessory.getPrice());
         }
     }
 
+    /**
+     * View Holder class for the accessories
+     * Binding each view in the card to the view from the layout
+     */
     static class AccessoryCartCardViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView descriptionTextView;
@@ -123,6 +167,10 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         }
     }
 
+    /**
+     * View Holder class for total price
+     * Binding the price view in the card to the view from the layout
+     */
     static class AccessoryFooterCartCardViewHolder extends RecyclerView.ViewHolder {
         TextView totalTextView;
 
@@ -132,6 +180,9 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
         }
     }
 
+    /**
+     * View Holder empty to extend the recycler view
+     */
     static class AccessoryEmptyFooterCartCardViewHolder extends RecyclerView.ViewHolder {
         AccessoryEmptyFooterCartCardViewHolder(@NonNull View itemView) {
             super(itemView);

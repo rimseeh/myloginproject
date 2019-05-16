@@ -5,10 +5,10 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
+import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.fragments.AccessoryGridFragment;
 import com.example.designandloginproject.fragments.LoginFragment;
 import com.example.designandloginproject.network.ConnectivityReceiver;
-import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +28,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //setting the application theme from the shared preferences
-        MySharedPreferences mySharedPreferences = MySharedPreferences.getInstance(this);
-        if (mySharedPreferences.readInt("Mode", AppCompatDelegate.MODE_NIGHT_NO)
+        if (MyApplication.getInstance().getInt("Mode", AppCompatDelegate.MODE_NIGHT_NO)
                 == AppCompatDelegate.MODE_NIGHT_YES) {
             setTheme(R.style.DarkTheme);
         } else {

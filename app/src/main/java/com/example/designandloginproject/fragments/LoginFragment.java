@@ -15,10 +15,9 @@ import com.example.designandloginproject.NavigationHost;
 import com.example.designandloginproject.R;
 import com.example.designandloginproject.application.MyApplication;
 import com.example.designandloginproject.models.User;
-import com.example.designandloginproject.sharedPreferences.MySharedPreferences;
-import com.example.designandloginproject.signinmethods.MyEmail;
-import com.example.designandloginproject.signinmethods.MyFacebook;
-import com.example.designandloginproject.signinmethods.MyGoogle;
+import com.example.designandloginproject.signInMethods.MyEmail;
+import com.example.designandloginproject.signInMethods.MyFacebook;
+import com.example.designandloginproject.signInMethods.MyGoogle;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -37,7 +36,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -134,8 +132,8 @@ public class LoginFragment extends Fragment {
                         passwordTextInputLayout
                 )) {
                     if (checkBoxBoolean) {
-                        MySharedPreferences.getInstance(getActivity()).writeString("email", Objects.requireNonNull(emailEditText.getText()).toString());
-                        MySharedPreferences.getInstance(getActivity()).writeString("password", Objects.requireNonNull(passwordEditText.getText()).toString());
+                        MyApplication.getInstance().getString("email", Objects.requireNonNull(emailEditText.getText()).toString());
+                        MyApplication.getInstance().getString("password", Objects.requireNonNull(passwordEditText.getText()).toString());
                     }
                     MyEmail.getInstance(getActivity()).signInWithEmail(progressBar, Objects.requireNonNull(emailEditText.getText()).toString(), Objects.requireNonNull(passwordEditText.getText()).toString());
                 }
@@ -178,9 +176,9 @@ public class LoginFragment extends Fragment {
      */
 
     private void loadSavedEmailAndPassword() {
-        if (MySharedPreferences.getInstance(getActivity()).readString("email", null) != null) {
-            emailEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("email", null));
-            passwordEditText.setText(MySharedPreferences.getInstance(getActivity()).readString("password", null));
+        if (MyApplication.getInstance().getString("email", null) != null) {
+            emailEditText.setText(MyApplication.getInstance().getString("email", null));
+            passwordEditText.setText(MyApplication.getInstance().getString("password", null));
         }
     }
 

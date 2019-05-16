@@ -1,4 +1,4 @@
-package com.example.designandloginproject.signinmethods;
+package com.example.designandloginproject.signInMethods;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
