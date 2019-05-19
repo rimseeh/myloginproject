@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
  */
 public class SettingsFragment extends Fragment {
 
+    private static final String TAG = "SettingsFragment";
     View view;
     @BindView(R.id.switchMaterial_dark_theme)
     SwitchMaterial switchMaterial;
@@ -41,6 +43,7 @@ public class SettingsFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_settings, container, false);
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: ");
         ButterKnife.bind(this,view);
         switchMaterial.setOnCheckedChangeListener(null);
         if(MyApplication.getInstance().getInt("Mode",AppCompatDelegate.MODE_NIGHT_NO)==AppCompatDelegate.MODE_NIGHT_YES){

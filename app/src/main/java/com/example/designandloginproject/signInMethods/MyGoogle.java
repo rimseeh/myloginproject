@@ -39,14 +39,15 @@ public class MyGoogle {
     }
 
     /**
-     * Private constructor to make a single object from MyGoogle class
+     * Private constructor to make a single object from MyGoogle class.
      */
     private MyGoogle(Activity activity, View view) {
         this.mActivity = activity;
         this.mView = view;
     }
+
     /**
-     * Getter for the Main Activity
+     * Getter for the Main Activity.
      */
     private Activity getActivity() {
         return mActivity;
@@ -57,8 +58,9 @@ public class MyGoogle {
     }
 
     /**
-     * Signing in with google verification using google account and adding the account to the firebase database
-     * @param account google account to sign in with
+     * Signing in with google verification using google account and adding the account to the firebase database.
+     *
+     * @param account google account to sign in with.
      */
     public void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
@@ -94,9 +96,10 @@ public class MyGoogle {
     }
 
     /**
-     * getting the first and last name from google account
-     * @param acct google account to get the first and last name
-     * @return array list that has two nodes (first is user name and second last name)
+     * getting the first and last name from google account.
+     *
+     * @param acct google account to get the first and last name.
+     * @return array list that has two nodes (first is user name and second last name).
      */
     private ArrayList<String> getFirstAndLastNameGoogle(GoogleSignInAccount acct) {
         ArrayList<String> strings = new ArrayList<>();
@@ -123,9 +126,10 @@ public class MyGoogle {
     }
 
     /**
-     * Find the TextView that is inside of the SignInButton and set its text
-     * @param signInButton this is google sign in button
-     * @param buttonText the text to set the google text button
+     * Find the TextView that is inside of the SignInButton and set its text.
+     *
+     * @param signInButton this is google sign in button.
+     * @param buttonText   the text to set the google text button.
      */
     public static void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
         //

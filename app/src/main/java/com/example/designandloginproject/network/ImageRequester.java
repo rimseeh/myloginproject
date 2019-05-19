@@ -21,6 +21,9 @@ public class ImageRequester {
     private final Context context;
     private final ImageLoader imageLoader;
 
+    /**
+     * Constructor for the Image Requests.
+     */
     private ImageRequester() {
         context = MyApplication.getAppContext();
         RequestQueue requestQueue = Volley.newRequestQueue(MyApplication.getAppContext());
@@ -51,7 +54,7 @@ public class ImageRequester {
     }
 
     /**
-     * Get a static instance of ImageRequester
+     * Get a static instance of ImageRequester.
      */
     public static ImageRequester getInstance() {
         if (instance == null) {
@@ -61,10 +64,10 @@ public class ImageRequester {
     }
 
     /**
-     * Sets the image on the given {@link NetworkImageView} to the image at the given URL
+     * Sets the image on the given {@link NetworkImageView} to the image at the given URL.
      *
-     * @param networkImageView {@link NetworkImageView} to set image on
-     * @param url              URL of the image
+     * @param networkImageView {@link NetworkImageView} to set image on.
+     * @param url              URL of the image.
      */
     public void setImageFromUrl(NetworkImageView networkImageView, String url) {
         networkImageView.setImageUrl(url, imageLoader);

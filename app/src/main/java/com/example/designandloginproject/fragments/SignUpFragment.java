@@ -46,11 +46,14 @@ import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment {
 
-//    private float x1,x2,y1,y2;
-//    DisplayMetrics displayMetrics = new DisplayMetrics();
     private static final String TAG = "SignUpFragment";
     private static final Boolean ERROR = true;
-
+    private String mGender;
+    private boolean mDateSet = false;
+    private String mDate;
+    private DatePickerDialog.OnDateSetListener mOnDateSetListener;
+    private FirebaseAuth mAuth;
+    private User mUser;
 
     @BindView(R.id.layout)
     ScrollView layout;
@@ -78,38 +81,22 @@ public class SignUpFragment extends Fragment {
     TextInputLayout confirmPasswordInputLayout;
     @BindView(R.id.confirm_password_edit_text_sign_up)
     TextInputEditText confirmPasswordEditText;
-
     @BindView(R.id.date_text_view_sign_up)
     TextView dateTextView;
-
     @BindView(R.id.date_error_text_input)
     TextView dateErrorTextView;
     @BindView(R.id.gender_error_text_input)
     TextView genderErrorTextView;
-
-    private String gender;
-    private boolean dateSet = false;
-
     @BindView(R.id.male_radio_button_sign_up)
     RadioButton maleRadioButton;
     @BindView(R.id.female_radio_button_sign_up)
     RadioButton femaleRadioButton;
-
     @BindView(R.id.city_spinner_sign_up)
     Spinner citySpinner;
-
     @BindView(R.id.sign_up_button_sign_up)
     MaterialButton button;
-
     @BindView(R.id.sign_up_progress_bar)
     ProgressBar progressBar;
-
-    private String mDate;
-    private DatePickerDialog.OnDateSetListener mOnDateSetListener;
-
-    private FirebaseAuth mAuth;
-
-    private User mUser;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -139,7 +126,7 @@ public class SignUpFragment extends Fragment {
                     Objects.requireNonNull(firstNameEditText.getText()).toString(),
                     Objects.requireNonNull(lastNameEditText.getText()).toString(),
                     Objects.requireNonNull(phoneEditText.getText()).toString(),
-                    gender,
+                    mGender,
                     citySpinner.getSelectedItem().toString()
             );
             progressBar.setVisibility(View.VISIBLE);
@@ -203,7 +190,7 @@ public class SignUpFragment extends Fragment {
         } else {
             phoneInputLayout.setError(null);
         }
-        if (!dateSet) {
+        if (!mDateSet) {
             dateErrorTextView.setVisibility(View.VISIBLE);
             error = ERROR;
         } else {
@@ -211,10 +198,10 @@ public class SignUpFragment extends Fragment {
         }
 
         if (maleRadioButton.isChecked()) {
-            gender = "male";
+            mGender = "male";
             genderErrorTextView.setVisibility(View.INVISIBLE);
         } else if (femaleRadioButton.isChecked()) {
-            gender = "female";
+            mGender = "female";
             genderErrorTextView.setVisibility(View.INVISIBLE);
         } else {
             genderErrorTextView.setVisibility(View.VISIBLE);
@@ -263,7 +250,7 @@ public class SignUpFragment extends Fragment {
         mOnDateSetListener = (view1, year, month, dayOfMonth) -> {
             month = month + 1;
             mDate = dayOfMonth + "/" + month + "/" + year;
-            dateSet = true;
+            mDateSet = true;
             dateTextView.setText(mDate);
         };
     }

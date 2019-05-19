@@ -61,42 +61,48 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * {@link View.OnClickListener} used for the cart translation
+ * This fragment is used to show all the Accessories in the firebase
+ */
 
 public class AccessoryGridFragment extends Fragment implements CartChangeListener {
-    private static final String TAG = "AccessoryGridFragment";
 
+    private static final String TAG = "AccessoryGridFragment";
+    private static ArrayList<Accessory> mAccessories = new ArrayList<>();
+    private AccessoryCardRecyclerViewAdapter adapter;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private ArrayList<String> mCartKeys = new ArrayList<>();
+    private int mActionbarheight = 0;
+    private RecyclerView mRecyclerView;
+    View view;
+
+    /**
+     * Binding each View with the view from the XML file of the fragment using ButterKnife
+     */
     @BindView(R.id.accessory_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.backdrop_logout_button)
     MaterialButton logoutButton;
-
     @BindView(R.id.shopping_cart_image_button)
     ImageButton cartImageView;
     @BindView(R.id.cart_linear_layout)
     LinearLayout cartLinearLayout;
-
     @BindView(R.id.bottomCartSheet)
     CutCornerView cutCornerViewCart;
-
     @BindView(R.id.backdrop_settings_button)
     MaterialButton settingsMaterialButton;
-
     @BindView(R.id.img_cpy)
     ImageView mDummyImgView;
-
-    private static ArrayList<Accessory> mAccessories = new ArrayList<>();
-    private AccessoryCardRecyclerViewAdapter adapter;
-    View view;
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     @BindView(R.id.accessory_constraint_layout)
     ConstraintLayout constraintLayout;
 
-    private ArrayList<String> mCartKeys = new ArrayList<>();
-
-    private int mActionbarheight=0;
-
-    private RecyclerView mRecyclerView;
-
+    /**
+     * Executed when the fragment is started
+     * Initialize the Recycler View to show the accessories
+     * Get all accessories from the database and show them in the Recycler view
+     */
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -146,6 +152,12 @@ public class AccessoryGridFragment extends Fragment implements CartChangeListene
         return view;
     }
 
+    /**
+     * Click listener for the views that are listed from the XML
+     *
+     * @param view This is the view that is clicked (triggered)
+     */
+
     @OnClick({R.id.backdrop_logout_button, R.id.shopping_cart_image_button, R.id.backdrop_settings_button})
     void onClick(View view) {
         switch (view.getId()) {
@@ -178,6 +190,11 @@ public class AccessoryGridFragment extends Fragment implements CartChangeListene
         super.onCreateOptionsMenu(menu, menuInflater);
     }
 
+    /**
+     * setting up the toolbar animation and translation
+     *
+     * @param view the view containing the toolbar view
+     */
     private void setUpToolbar(View view) {
         Toolbar toolbar = view.findViewById(R.id.app_bar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -193,19 +210,31 @@ public class AccessoryGridFragment extends Fragment implements CartChangeListene
         );
     }
 
+    /**
+     * shaking the cart image button and making animation when adding the the accessory to the cart
+     *
+     * @param viewCart The card to me moved.
+     * @param position The position of the selected card.
+     */
     @Override
-    public void onCartChange(String menuId, int count, int price, View cardv, int[] position) {
+    public void onCartChange(View viewCart, int[] position) {
         Animation shake;
         shake = AnimationUtils.loadAnimation(MyApplication.getAppContext(), R.anim.shake);
         cartImageView.startAnimation(shake);
 
-        if (cardv != null) {
-            Bitmap b = MyApplication.getInstance().loadBitmapFromView(cardv, cardv.getWidth(), cardv.getHeight());
+        if (viewCart != null) {
+            Bitmap b = MyApplication.getInstance().loadBitmapFromView(viewCart, viewCart.getWidth(), viewCart.getHeight());
             animateView(b, position);
         }
 
     }
 
+    /**
+     * Move a View to the bottom corner
+     *
+     * @param b        The image to be viewed when moving
+     * @param position The current position of the card to be moved.
+     */
     private void animateView(Bitmap b, int[] position) {
         mDummyImgView.setImageBitmap(b);
         int[] u = new int[2];
@@ -223,6 +252,9 @@ public class AccessoryGridFragment extends Fragment implements CartChangeListene
         animSetXY.start();
     }
 
+    /**
+     * Initialize mCartKeys ArrayList for all cart Ids in fire base
+     */
     private void getCartAccessoriesIds() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = firebaseDatabase.getReference("cart/" + mAuth.getUid());

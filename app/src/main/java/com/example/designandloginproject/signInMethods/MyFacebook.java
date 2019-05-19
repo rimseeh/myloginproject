@@ -39,23 +39,24 @@ public class MyFacebook {
     }
 
     /**
-     * Private constructor to make a single object from MyFacebook class
+     * Private constructor to make a single object from MyFacebook class.
      */
     private MyFacebook(Activity mActivity) {
         this.mActivity = mActivity;
     }
 
     /**
-     * Getter for the Main Activity
+     * Getter for the Main Activity.
      */
     private Activity getActivity() {
         return mActivity;
     }
 
     /**
-     * Signing in with facebook verification using facebook login button
-     * @param token token is for facebook verification
-     * @param facebookLoginButton facebook login button
+     * Signing in with facebook verification using facebook login button.
+     *
+     * @param token               token is for facebook verification.
+     * @param facebookLoginButton facebook login button.
      */
     public void handleFacebookAccessToken(AccessToken token, LoginButton facebookLoginButton) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);

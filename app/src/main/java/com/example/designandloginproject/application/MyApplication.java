@@ -15,6 +15,9 @@ import com.example.designandloginproject.network.ConnectivityReceiver;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+/**
+ * This is a Singleton class and triggered when the application starts
+ */
 public class MyApplication extends Application {
     private static MyApplication instance;
     private static Context appContext;
@@ -22,14 +25,23 @@ public class MyApplication extends Application {
     private static final String SHARED_PREFERENCE_NAME = "MySharedPref"; // sharedPreference name
     private static final int MODE = Activity.MODE_PRIVATE; // mode for the shared preference this can be Activity.MODE_WORLD_READABLE or Activity.MODE_WORLD_WRITABLE
 
+    /**
+     * @return Return the application context
+     */
     public static MyApplication getInstance() {
         return instance;
     }
 
+    /**
+     * @return Returns the Application Context
+     */
     public static Context getAppContext() {
         return appContext;
     }
 
+    /**
+     * Executed when the application starts
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,6 +51,9 @@ public class MyApplication extends Application {
         initSharedPreferences();
     }
 
+    /**
+     * Listener for the Internet connectivity BroadCast Receiver
+     */
     public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
         ConnectivityReceiver.connectivityReceiverListener = listener;
     }
@@ -124,7 +139,7 @@ public class MyApplication extends Application {
      * Used to save Int
      */
     public boolean saveInt(String key, int value) {
-            return getSharedPreferences().edit().putInt(key, value).commit();
+        return getSharedPreferences().edit().putInt(key, value).commit();
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.designandloginproject.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import butterknife.OnClick;
  */
 public class NetworkErrorFragment extends Fragment {
 
+    private static final String TAG = "NetworkErrorFragment";
     @BindView(R.id.tryAgainButton)
     MaterialButton TryAgainButton;
     @BindView(R.id.swipdownToRefreshLayout)
@@ -44,7 +46,7 @@ public class NetworkErrorFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_network_error, container, false);
         ButterKnife.bind(this, view);
-
+        Log.d(TAG, "onCreateView:");
         swipeRefreshLayout.setOnRefreshListener(this::isConnectedToNetwork);
         return view;
     }

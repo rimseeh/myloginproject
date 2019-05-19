@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 /**
- * Main activity (the only activity) which displays all the fragments inside
+ * Main activity (the only activity) which displays all the fragments inside.
  */
 public class MainActivity extends AppCompatActivity implements NavigationHost {
 
@@ -101,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
     }
 
     /**
-     * register a broadcast Receiver listening to the internet access
+     * register a broadcast Receiver listening to the internet access.
      */
     private void registerNetworkBroadcast() {
         registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     /**
-     * removing a broadcast Receiver
+     * removing a broadcast Receiver.
      */
     protected void unregisterNetworkChanges() {
         try {
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationHost {
     }
 
     /**
-     * calling the unregisterNetworkChanges to remove the network broadcast Receiver
+     * calling the unregisterNetworkChanges to remove the network broadcast Receiver.
      */
     @Override
     protected void onDestroy() {

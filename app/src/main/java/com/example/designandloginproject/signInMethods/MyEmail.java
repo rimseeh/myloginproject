@@ -39,25 +39,25 @@ public class MyEmail {
     }
 
     /**
-     * Private constructor to make a single object from MyEmail class
+     * Private constructor to make a single object from MyEmail class.
      */
     private MyEmail(Activity mActivity) {
         this.mActivity = mActivity;
     }
 
     /**
-     * Getter for the Main Activity
+     * Getter for the Main Activity.
      */
     private Activity getActivity() {
         return mActivity;
     }
 
     /**
-     * Signing in with email and password
+     * Signing in with email and password.
      *
-     * @param progressBar a progress bar is only for progressing
-     * @param email       email to sign in with
-     * @param password    password to sign in with
+     * @param progressBar a progress bar is only for progressing.
+     * @param email       email to sign in with.
+     * @param password    password to sign in with.
      */
     public void signInWithEmail(ProgressBar progressBar, String email, String password) {
         //setting progress bar to visible

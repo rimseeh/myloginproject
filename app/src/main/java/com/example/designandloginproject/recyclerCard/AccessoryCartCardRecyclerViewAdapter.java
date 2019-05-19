@@ -21,11 +21,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Recycler View Adapter for the cart fragment
- * this Recycler View Adapter has three different View Holders
- * the first is for the cart
- * the second is for calculating the total cost at the bottom
- * the third is empty card in the bottom
+ * Recycler View Adapter for the cart fragment.
+ * This Recycler View Adapter has three different View Holders.
+ * The first is for the cart.
+ * The second is for calculating the total cost at the bottom.
+ * The third is empty card in the bottom.
  */
 public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_CART = 0;
@@ -36,9 +36,9 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     private double total = 0;
 
     /**
-     * Constructor for the Recycler view adapter
+     * Constructor for the Recycler view adapter.
      *
-     * @param cartAccessories list that has all the carts to display
+     * @param cartAccessories List that has all the carts to display.
      */
     public AccessoryCartCardRecyclerViewAdapter(List<Accessory> cartAccessories) {
         this.cartAccessories = cartAccessories;
@@ -46,7 +46,7 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * Used to initialize the view holder to each holder separately
+     * Used to initialize the view holder to each holder separately.
      */
     @NonNull
     @Override
@@ -70,7 +70,7 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
      * Add the view to the recycler view
      *
      * @param viewHolder view holder that is added to the recycler view
-     * @param position   the position of the array list to add the recycler view
+     * @param position   The position of the array list to add the recycler view
      */
     @SuppressLint("SetTextI18n")
     @Override
@@ -98,9 +98,9 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     /**
      * Remove the selected view from the recycler view and the data base
      *
-     * @param accessory accessory to be removed from the database and the recycler view
-     * @param holder    accessory card view to be removed from the recycler view
-     * @param position  the position of the recycler view to be removed
+     * @param accessory Accessory to be removed from the database and the recycler view.
+     * @param holder    Accessory card view to be removed from the recycler view.
+     * @param position  The position of the recycler view to be removed.
      */
     private void removeFromDataBaseAndRecyclerView(Accessory accessory, AccessoryCartCardViewHolder holder, int position) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -115,7 +115,7 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * Get the number of elements to be added to the recycler view
+     * Get the number of elements to be added to the recycler view.
      */
     @Override
     public int getItemCount() {
@@ -123,9 +123,9 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * Get the type of the card to be added to the recycler view according to position
+     * Get the type of the card to be added to the recycler view according to position.
      *
-     * @param position position of the card to be added to the recycler view
+     * @param position Position of the card to be added to the recycler view.
      */
     @Override
     public int getItemViewType(int position) {
@@ -138,7 +138,7 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * Calculate the total price of the accessories added to the Recycler View
+     * Calculate the total price of the accessories added to the Recycler View.
      */
     private void setTotal() {
         for (Accessory accessory : cartAccessories) {
@@ -147,8 +147,8 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * View Holder class for the accessories
-     * Binding each view in the card to the view from the layout
+     * View Holder class for the accessories.
+     * Binding each view in the card to the view from the layout.
      */
     static class AccessoryCartCardViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
@@ -168,8 +168,8 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * View Holder class for total price
-     * Binding the price view in the card to the view from the layout
+     * View Holder class for total price.
+     * Binding the price view in the card to the view from the layout.
      */
     static class AccessoryFooterCartCardViewHolder extends RecyclerView.ViewHolder {
         TextView totalTextView;
@@ -181,7 +181,7 @@ public class AccessoryCartCardRecyclerViewAdapter extends RecyclerView.Adapter<R
     }
 
     /**
-     * View Holder empty to extend the recycler view
+     * View Holder empty to extend the recycler view.
      */
     static class AccessoryEmptyFooterCartCardViewHolder extends RecyclerView.ViewHolder {
         AccessoryEmptyFooterCartCardViewHolder(@NonNull View itemView) {

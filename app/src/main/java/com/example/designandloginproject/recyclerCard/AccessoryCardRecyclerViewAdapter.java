@@ -29,11 +29,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * Recycler View Adapter for the Accessory fragment
- * this Recycler View Adapter has three different View Holders
- * the first is for the cart
- * the second is for calculating the total cost at the bottom
- * the third is empty card in the bottom
+ * Recycler View Adapter for the Accessory fragment.
+ * This Recycler View Adapter has three different View Holders.
+ * The first is for the cart.
+ * The second is for calculating the total cost at the bottom.
+ * The third is empty card in the bottom.
  */
 public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<AccessoryCardRecyclerViewAdapter.AccessoryCardViewHolder> {
 
@@ -43,11 +43,11 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     private CartChangeListener mOnQuantityChange;
 
     /**
-     * Constructor for the Recycler view adapter
+     * Constructor for the Recycler view adapter.
      *
-     * @param mAccessories      list that has all the accessories to display
-     * @param mActivity         activity holding the recycle view
-     * @param mOnQuantityChange listener to firebase
+     * @param mAccessories      List that has all the accessories to display.
+     * @param mActivity         Activity holding the recycle view.
+     * @param mOnQuantityChange Listener to firebase.
      */
     public AccessoryCardRecyclerViewAdapter(List<Accessory> mAccessories,
                                             Activity mActivity,
@@ -57,8 +57,9 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
         this.mActivity = mActivity;
         this.mOnQuantityChange = mOnQuantityChange;
     }
+
     /**
-     * Used to initialize the view holder
+     * Used to initialize the view holder.
      */
     @NonNull
     @Override
@@ -68,10 +69,10 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     }
 
     /**
-     * Add the view to the recycler view
+     * Add the view to the recycler view.
      *
-     * @param viewHolder view holder that is added to the recycler view
-     * @param position   the position of the array list to add the recycler view
+     * @param viewHolder View holder that is added to the recycler view.
+     * @param position   The position of the array list to add the recycler view.
      */
     @Override
     public void onBindViewHolder(@NonNull AccessoryCardViewHolder viewHolder, int position) {
@@ -91,10 +92,10 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     }
 
     /**
-     * adding the selected accessory to the FireBase cart and preform animation
+     * Adding the selected accessory to the FireBase cart and preform animation.
      *
-     * @param accessory  accessory to be added
-     * @param viewHolder view holder from where the accessory is added
+     * @param accessory  Accessory to be added.
+     * @param viewHolder View holder from where the accessory is added.
      */
     private void addToCartFireBase(Accessory accessory, AccessoryCardViewHolder viewHolder) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -109,15 +110,15 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     }
 
     /**
-     * perform animation for the added accessory
+     * perform animation for the added accessory.
      *
-     * @param holder holder where the accessory is added
-     * @param accessory to be animated
+     * @param holder    Holder where the accessory is added.
+     * @param accessory To be animated.
      */
     private void addToCartAnimation(AccessoryCardViewHolder holder, Accessory accessory) {
         int[] e = new int[2];
         holder.card.getLocationOnScreen(e);
-        mOnQuantityChange.onCartChange(accessory.getId(), 1, Integer.parseInt(accessory.getPrice()), holder.accessoryImage, e);
+        mOnQuantityChange.onCartChange(holder.accessoryImage, e);
         Log.e("tuxe", "=" + e[0]);
         Log.e("tuye", "=" + e[1]);
         holder.animatorSet.setTarget(holder.addToCartImageButton);
@@ -147,7 +148,7 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     }
 
     /**
-     * Get the number of elements to be added to the recycler view
+     * Get the number of elements to be added to the recycler view.
      */
     @Override
     public int getItemCount() {
@@ -155,8 +156,8 @@ public class AccessoryCardRecyclerViewAdapter extends RecyclerView.Adapter<Acces
     }
 
     /**
-     * View Holder class for the accessories
-     * Binding each view in the card to the view from the layout
+     * View Holder class for the accessories.
+     * Binding each view in the card to the view from the layout.
      */
     static class AccessoryCardViewHolder extends RecyclerView.ViewHolder {
         NetworkImageView accessoryImage;

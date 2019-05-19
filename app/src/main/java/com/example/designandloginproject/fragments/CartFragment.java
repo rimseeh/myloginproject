@@ -39,24 +39,33 @@ import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
+ * This fragment is used to show all the Cart Accessories in the firebase
  */
 public class CartFragment extends Fragment {
 
     private static final String TAG = "CartFragment";
-    @BindView(R.id.shopping_cart_back_image_button)
-    ImageButton backImageButton;
-    View view;
     private ArrayList<Accessory> mCartAccessories;
     private ArrayList<String> mCartKeys;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    View view;
 
+    /**
+     * Binding each View with the view from the XML file of the fragment using ButterKnife
+     */
+    @BindView(R.id.shopping_cart_back_image_button)
+    ImageButton backImageButton;
     @BindView(R.id.shopping_cart_accessory_swipe_refresh_layout)
     SwipeRefreshLayout cartSwipeRefreshLayout;
+
     public CartFragment() {
         // Required empty public constructor
     }
 
-
+    /**
+     * Executed when the fragment is started
+     * Initialize the Cart Recycler View to show the accessories
+     * Get all Cart Accessories from the database and show them in the Recycler view
+     */
     @Override
     public View onCreateView(@NonNull @NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +78,18 @@ public class CartFragment extends Fragment {
         cartSwipeRefreshLayout.setOnRefreshListener(() -> cartSwipeRefreshLayout.setRefreshing(false));
 
         return view;
+    }
+
+    /**
+     * Click listener for the views that are listed from the XML
+     *
+     * @param view This is the view that is clicked (triggered)
+     */
+    @OnClick(R.id.shopping_cart_back_image_button)
+    void onClick(View view){
+        if (view.getId() == R.id.shopping_cart_back_image_button) {
+            Objects.requireNonNull(getActivity()).onBackPressed();
+        }
     }
 
     private void setCartKeysAndCartAccessories() {
@@ -115,12 +136,6 @@ public class CartFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.shopping_cart_back_image_button)
-    void onClick(View view){
-        if (view.getId() == R.id.shopping_cart_back_image_button) {
-            Objects.requireNonNull(getActivity()).onBackPressed();
-        }
-    }
     private void setUpCartCardRecyclerViewAdapter() {
         RecyclerView recyclerView = view.findViewById(R.id.shopping_cart_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -129,6 +144,5 @@ public class CartFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
 
     }
-
 
 }

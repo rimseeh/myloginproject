@@ -30,6 +30,8 @@ import butterknife.OnClick;
 public class ForgetPasswordFragment extends Fragment {
 
     private static final String TAG = "ForgetPasswordFragment";
+    private String mEmail =null;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @BindView(R.id.reset_button)
     MaterialButton buttonReset;
@@ -37,11 +39,6 @@ public class ForgetPasswordFragment extends Fragment {
     TextInputEditText editTextEmail;
     @BindView(R.id.email_text_input_reset)
     TextInputLayout emailInputLayout;
-
-    private String mEmail =null;
-
-
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public ForgetPasswordFragment() {
         // Required empty public constructor
@@ -55,16 +52,14 @@ public class ForgetPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_forget_password, container, false);
         ButterKnife.bind(this, view);
         return view;
-
-
     }
 
     @OnClick(R.id.reset_button)
     public void onClick(){
         mEmail = Objects.requireNonNull(editTextEmail.getText()).toString();
         if (User.isEmailValid(mEmail)) {
-            mAuth.fetchProvidersForEmail(mEmail).addOnCompleteListener(task -> {
-                if (Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getProviders()).isEmpty()) {
+            mAuth.fetchSignInMethodsForEmail(mEmail).addOnCompleteListener(task -> {
+                if (Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getSignInMethods()).isEmpty()) {
                     Toast.makeText(getActivity(), "mEmail not found", Toast.LENGTH_SHORT).show();
                 } else {
                     mAuth.sendPasswordResetEmail(mEmail).addOnCompleteListener(task1 -> {

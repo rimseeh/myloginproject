@@ -47,29 +47,27 @@ import butterknife.OnClick;
 
 /**
  * Fragment that displays the login page
- * it has three different methods to login with
- * (login with email, login with gmail, login with facebook)
- * forget password button that navigate to forget fragment
- * sign up button that navigate to sign up fragment enabling the user to sign up using his information
+ * It has three different methods to login with
+ * (login with email, login with gmail, login with facebook).
+ * Forget password button that navigate to forget fragment.
+ * Sign up button that navigate to sign up fragment enabling the user to sign up using his information.
  */
 public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     private static final int GE_SIGN_IN = 9001;
-
+    private CallbackManager mCallbackManager = null;
+    private boolean checkBoxBoolean;
     View view;
 
     @BindView(R.id.sign_up_button_login)
     Button signUpButton;
     @BindView(R.id.login_button_login)
     Button loginButton;
-
     @BindView(R.id.textView_forget_password)
     TextView forgetPassTextView;
-
     @BindView(R.id.checkBox_login)
     MaterialCheckBox rememberMeCheckBox;
-
     @BindView(R.id.email_edit_text_login)
     TextInputEditText emailEditText;
     @BindView(R.id.password_edit_text_login)
@@ -78,19 +76,13 @@ public class LoginFragment extends Fragment {
     TextInputLayout emailTextInputLayout;
     @BindView(R.id.password_text_input_login)
     TextInputLayout passwordTextInputLayout;
-
     @BindView(R.id.progressBar_login)
     ProgressBar progressBar;
-
     @BindView(R.id.sign_in_button_google)
     SignInButton googleSignInButton;
-
     @BindView(R.id.login_button)
     LoginButton facebookLoginButton;
 
-    private CallbackManager mCallbackManager = null;
-
-    private boolean checkBoxBoolean;
 
     public LoginFragment() {
         // Required empty public constructor
